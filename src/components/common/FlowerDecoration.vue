@@ -1,13 +1,13 @@
 <template>
   <div class="flower-decoration" aria-hidden="true">
     <img
-      :src="topBouquet"
+      :src="topLeft"
       class="flower-decoration__item flower-decoration__item--top"
       alt=""
       loading="lazy"
     />
     <img
-      :src="bottomBouquet"
+      :src="threeFlowers"
       class="flower-decoration__item flower-decoration__item--bottom"
       alt=""
       loading="lazy"
@@ -16,8 +16,8 @@
 </template>
 
 <script setup>
-import topBouquet from '@/assets/images/bouquet-top.png'
-import bottomBouquet from '@/assets/images/bouquet-bottom.png'
+import topLeft from '@/assets/images/topleft-blossom-gold.png'
+import threeFlowers from '@/assets/images/three-flowers.png'
 </script>
 
 <style scoped>
@@ -39,15 +39,15 @@ import bottomBouquet from '@/assets/images/bouquet-bottom.png'
 
 .flower-decoration__item--top {
   top: -2rem;
-  left: 50%;
+  left: 80%;
   width: clamp(10rem, 22vw, 14rem);
   transform: translateX(-50%) rotate(-4deg);
 }
 
 .flower-decoration__item--bottom {
-  bottom: -1.5rem;
+  bottom: -4rem;
   right: 1.5rem;
-  width: clamp(8rem, 18vw, 12rem);
+  width: clamp(16rem, 18vw, 12rem);
   transform: rotate(6deg);
 }
 </style>

@@ -1,10 +1,17 @@
 <template>
   <section id="profil" class="section profil-section" aria-labelledby="profil-title">
     <div class="section__inner">
-      <SectionHeading eyebrow="Profil Mempelai" title="Dua Pribadi, Satu Tujuan" id="profil-title">
-        Mengenal secara cukup, menjaga adab, dan menempatkan keluarga serta visi hidup sebagai
-        bagian utama perjalanan ini.
-      </SectionHeading>
+      <div class="profil-section__intro">
+        <div class="profil-section__heading-oval">
+          <SectionHeading eyebrow="Profil Mempelai" title="Dua Pribadi, Satu Tujuan" id="profil-title">
+            Mengenal secara cukup, menjaga adab, dan menempatkan keluarga serta visi hidup sebagai
+            bagian utama perjalanan ini.
+          </SectionHeading>
+        </div>
+
+        <FlowerDecoration class="profil-section__flowers profil-section__flowers--left" />
+        <FlowerDecoration class="profil-section__flowers profil-section__flowers--right" />
+      </div>
 
       <div class="profil-section__grid">
         <GlassCard v-for="person in people" :key="person.name" class="profil-section__card">
@@ -33,6 +40,7 @@ import brideImage from '@/assets/images/bride-placeholder.webp'
 import frameBlossom from '@/assets/images/frame-blossom.png'
 import GlassCard from '@/components/common/GlassCard.vue'
 import SectionHeading from '@/components/common/SectionHeading.vue'
+import FlowerDecoration from '@/components/common/FlowerDecoration.vue'
 
 const people = [
   {
@@ -159,6 +167,55 @@ const people = [
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.7), transparent 48%),
     linear-gradient(180deg, rgba(245, 230, 204, 0.66), rgba(114, 199, 247, 0.48));
+}
+
+.profil-section__intro {
+  position: relative;
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 22rem;
+}
+
+.profil-section__heading-oval {
+  position: relative;
+  z-index: 2;
+  max-width: 40rem;
+  width: min(100%, 40rem);
+  padding: 2rem 2.5rem;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(114, 199, 247, 0.28);
+  border-radius: 4rem;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.45), 0 24px 45px rgba(34, 75, 121, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.profil-section__intro :is(.section-heading) {
+  margin: 0;
+  text-align: center;
+}
+
+.profil-section__flowers {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.profil-section__flowers--left {
+  left: 0;
+  top: 0.5rem;
+  width: clamp(8rem, 18vw, 12rem);
+  transform: translate(-24%, -8%) rotate(-14deg);
+}
+
+.profil-section__flowers--right {
+  right: 0;
+  bottom: 0.25rem;
+  width: clamp(10rem, 20vw, 14rem);
+  transform: translate(18%, 4%) rotate(8deg);
 }
 
 .profil-section__content {

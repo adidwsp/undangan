@@ -1,7 +1,7 @@
 <template>
   <section id="ayat" class="section ayat-section blue-band" aria-labelledby="ayat-title">
     <div class="section__inner ayat-section__inner">
-      <SectionHeading eyebrow="Ayat Pernikahan" title="Sakinah, Mawaddah, Rahmah" />
+      <SectionHeading eyebrow="Ayat Pernikahan" title="Tanda Kebesaran-Nya" />
 
       <GlassCard class="ayat-section__card">
         <FlowerDecoration />

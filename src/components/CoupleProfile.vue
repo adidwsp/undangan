@@ -1,10 +1,16 @@
 <template>
   <section id="profil" class="section profil-section" aria-labelledby="profil-title">
     <div class="section__inner">
-      <SectionHeading eyebrow="Profil Mempelai" title="Dua Pribadi, Satu Tujuan" id="profil-title">
-        Mengenal secara cukup, menjaga adab, dan menempatkan keluarga serta visi hidup sebagai
-        bagian utama perjalanan ini.
-      </SectionHeading>
+      <div class="profil-section__intro">
+        <div class="profil-section__heading-oval">
+          <SectionHeading eyebrow="Profil Mempelai" title="Dua Pribadi, Satu Tujuan" id="profil-title">
+            Berawal dari dua orang yang tidak saling mengenal, dipertemukan karena kesamaan cara pandang dalam melihat masa depan. Di atas perbedaan karakter yang saling melengkapi, komitmen tumbuh untuk memulai perjalanan baru ini bersama-sama.
+          </SectionHeading>
+        </div>
+
+        <FlowerDecoration class="profil-section__flowers profil-section__flowers--left" />
+        <FlowerDecoration class="profil-section__flowers profil-section__flowers--right" />
+      </div>
 
       <div class="profil-section__grid">
         <GlassCard v-for="person in people" :key="person.name" class="profil-section__card">
@@ -37,6 +43,7 @@ import brideImage from '@/assets/images/bride-placeholder.webp'
 import frameBlossom from '@/assets/images/frame-blossom.png'
 import GlassCard from '@/components/common/GlassCard.vue'
 import SectionHeading from '@/components/common/SectionHeading.vue'
+import FlowerDecoration from '@/components/common/FlowerDecoration.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -83,6 +90,55 @@ onMounted(() => {
 .profil-section__grid {
   display: grid;
   gap: 1rem;
+}
+
+.profil-section__intro {
+  position: relative;
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 20rem;
+}
+
+.profil-section__heading-oval {
+  position: relative;
+  z-index: 5;
+  max-width: 44rem;
+  width: min(100%, 44rem);
+  padding: 2rem 2.5rem;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(114, 199, 247, 0.28);
+  border-radius: 7rem;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.5), 0 22px 44px rgba(34,75,121,0.06);
+  backdrop-filter: blur(14px);
+}
+
+.profil-section__intro :is(.section-heading) {
+  margin: 0;
+  text-align: center;
+}
+
+.profil-section__flowers {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.profil-section__flowers--left {
+  left: 0;
+  top: 0.5rem;
+  width: clamp(8rem, 18vw, 12rem);
+  transform: translate(-22%, -8%) rotate(-14deg);
+}
+
+.profil-section__flowers--right {
+  right: 0;
+  bottom: 0.25rem;
+  width: clamp(10rem, 20vw, 14rem);
+  transform: translate(18%, 4%) rotate(8deg);
 }
 
 .profil-section__card {
