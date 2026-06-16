@@ -4,6 +4,7 @@
       <SectionHeading eyebrow="Ayat Pernikahan" title="Sakinah, Mawaddah, Rahmah" />
 
       <GlassCard class="ayat-section__card">
+        <FlowerDecoration />
         <div class="ayat-section__calligraphy" aria-hidden="true">۞</div>
         <p class="ayat-section__arabic">
           وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةً
@@ -22,6 +23,7 @@
 <script setup>
 import GlassCard from '@/components/common/GlassCard.vue'
 import SectionHeading from '@/components/common/SectionHeading.vue'
+import FlowerDecoration from '@/components/common/FlowerDecoration.vue'
 
 // TODO: gunakan Lottie atau GSAP untuk reveal kaligrafi secara perlahan.
 </script>
@@ -35,19 +37,25 @@ import SectionHeading from '@/components/common/SectionHeading.vue'
   display: grid;
   gap: 1.2rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .ayat-section__calligraphy {
   color: var(--color-secondary);
   font-size: 2.4rem;
   line-height: 1;
+  z-index: 2;
 }
 
 .ayat-section__arabic {
   margin: 0;
   color: var(--color-primary);
+  font-family: 'Amiri', serif;
   font-size: clamp(1.45rem, 7vw, 2.7rem);
+  font-weight: 400;
   line-height: 2;
+  z-index: 2;
 }
 
 .ayat-section__translation {

@@ -22,7 +22,7 @@ import { useCountdown } from '@/composables/useCountdown'
 import GlassCard from '@/components/common/GlassCard.vue'
 import SectionHeading from '@/components/common/SectionHeading.vue'
 
-const { remaining } = useCountdown('2026-12-14T08:00:00+07:00')
+const { remaining } = useCountdown('2026-09-05T08:00:00+07:00')
 
 const countdownItems = computed(() => [
   { label: 'Hari', value: remaining.value.days },
