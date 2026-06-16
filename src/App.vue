@@ -1,7 +1,7 @@
 <template>
   <AppPreloader v-if="showPreloader" @ready="handlePreloaderReady" />
   <NavigationDots :items="navigationItems" />
-  <DecorativeOrnaments />
+  <!-- <DecorativeOrnaments /> -->
 
   <main class="invitation-page">
     <HeroCover @open="handleInvitationOpen" />

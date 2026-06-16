@@ -2,6 +2,7 @@
   <section id="cover" class="section cover-section" aria-labelledby="cover-title">
     <div id="cover-particles" class="cover-section__particles" aria-hidden="true" />
     <div class="cover-section__backdrop" aria-hidden="true">
+      <p ref="eyebrowRef" class="cover-section__eyebrow">The Wedding of</p>
       <span class="cover-section__grain" />
       <span class="cover-section__orb cover-section__orb--one" />
       <span class="cover-section__orb cover-section__orb--two" />
@@ -14,29 +15,40 @@
       <img :src="botanical02" class="cover-section__flower cover-section__flower--two" alt="" />
       <img :src="botanical03" class="cover-section__flower cover-section__flower--three" alt="" />
       <img :src="botanical04" class="cover-section__flower cover-section__flower--four" alt="" />
-      <img :src="treesImage" class="cover-section__tree cover-section__tree--left" alt="" />
-      <img :src="treesImage" class="cover-section__tree cover-section__tree--right" alt="" />
+      <img :src="floralCorner" class="cover-section__flower-border cover-section__flower-border--left" alt="" />
+      <img :src="floralCornerRight" class="cover-section__flower-border cover-section__flower-border--right" alt="" />
+      <img :src="topImage" class="cover-section__top-image" alt="" />
+      <img :src="bottomBlossom" class="cover-section__blossom cover-section__blossom--bottom" alt="" />
+      <img :src="bottomFlowers" class="cover-section__blossom cover-section__blossom--flowers" alt="" />
+      
       <img :src="botanical02" class="cover-section__leaf cover-section__leaf--one" alt="" />
       <img :src="botanical03" class="cover-section__leaf cover-section__leaf--two" alt="" />
     </div>
 
     <div class="cover-section__gate">
-      <img :src="floralCorner" class="cover-section__gate-ornament cover-section__gate-ornament--top" alt="" />
-      <img :src="floralCorner" class="cover-section__gate-ornament cover-section__gate-ornament--bottom" alt="" />
-      <span class="cover-section__gate-flower cover-section__gate-flower--left" />
-      <span class="cover-section__gate-flower cover-section__gate-flower--right" />
+      <!-- <img :src="top" class="cover-section__gate-ornament cover-section__gate-ornament--top" alt="" /> -->
+      <!-- <img :src="floralCorner" class="cover-section__gate-ornament cover-section__gate-ornament--bottom" alt="" /> -->
+      <img :src="leftBorderWhite" class="cover-section__gate-flower cover-section__gate-flower--left" alt="" />
+      <img :src="leftBorderWhite" class="cover-section__gate-flower cover-section__gate-flower--right" alt="" />
       <span class="cover-section__butterfly cover-section__butterfly--left" />
       <span class="cover-section__butterfly cover-section__butterfly--right" />
 
       <div class="section__inner cover-section__inner">
-        <p ref="eyebrowRef" class="cover-section__eyebrow">The Wedding of</p>
+        <!-- <p ref="eyebrowRef" class="cover-section__eyebrow">The Wedding of</p> -->
         <div class="cover-section__title-stack">
-          <img :src="calligraphy" class="cover-section__islamic-ornament-img" alt="ornament" />
+          <img :src="rose" class="cover-section__islamic-ornament-img" alt="ornament" />
           <h1 ref="titleRef" id="cover-title" class="cover-section__title">
-            Adi <span>&</span> Annisa
+            Adi <span style="color: #c9a84c">&</span> Annisa
           </h1>
         </div>
         <p ref="dateRef" class="cover-section__date">Sabtu, 5 September 2026</p>
+
+        <div class="cover-section__countdown" role="timer" aria-live="polite">
+          <GlassCard v-for="item in countdownItems" :key="item.label" class="cover-section__countdown-item">
+            <strong>{{ item.value }}</strong>
+            <span>{{ item.label }}</span>
+          </GlassCard>
+        </div>
 
         <div ref="guestRef" class="cover-section__guest glass-card">
           <span>Kepada Yth.</span>
@@ -44,6 +56,10 @@
         </div>
 
         <button ref="buttonRef" class="primary-button cover-section__button" type="button" @click="openInvitation">
+          <svg class="button-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 5.83333L10 10.8333L17.5 5.83333M2.5 14.1667V5.83333C2.5 4.91667 3.25 4.16667 4.16667 4.16667H15.8333C16.75 4.16667 17.5 4.91667 17.5 5.83333V14.1667C17.5 15.0833 16.75 15.8333 15.8333 15.8333H4.16667C3.25 15.8333 2.5 15.0833 2.5 14.1667Z" 
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           Buka Undangan
         </button>
       </div>
@@ -52,16 +68,26 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { useGuestStore } from '@/stores/guest'
-import treesImage from '@/assets/images/trees.png'
 import floralCorner from '@/assets/images/floral-corner.png'
-import calligraphy from '@/assets/images/calligraphy-placeholder.webp'
+import floralCornerRight from '@/assets/images/floral-corner-right.png'
+import topImage from '@/assets/images/top.png'
+import topBlossom from '@/assets/images/top-blossom-gold.png'
+import bottomBlossom from '@/assets/images/bottom-blossom-gold.png'
+import bottomFlowers from '@/assets/images/flowers.png'
+import rose from '@/assets/images/rose.png'
+// import leftBorderWhite from '@/assets/images/left-border-white.png'
+import leftBorderWhite from '@/assets/images/topleft-blossom-gold.png'
 import botanical01 from '@/assets/images/botanicals/botanical-01.webp'
 import botanical02 from '@/assets/images/botanicals/botanical-02.webp'
 import botanical03 from '@/assets/images/botanicals/botanical-03.webp'
 import botanical04 from '@/assets/images/botanicals/botanical-04.webp'
+
+import { useCountdown } from '@/composables/useCountdown'
+import GlassCard from '@/components/common/GlassCard.vue'
+
 
 const emit = defineEmits(['open'])
 const guestStore = useGuestStore()
@@ -72,6 +98,16 @@ const dateRef = ref(null)
 const guestRef = ref(null)
 const buttonRef = ref(null)
 let particlesInstance
+
+// Countdown to the wedding date shown on the card
+const { remaining } = useCountdown('2026-09-05T00:00:00+07:00')
+
+const countdownItems = computed(() => [
+  { label: 'Hari', value: String(remaining.value.days).padStart(2, '0') },
+  { label: 'Jam', value: String(remaining.value.hours).padStart(2, '0') },
+  { label: 'Menit', value: String(remaining.value.minutes).padStart(2, '0') },
+  { label: 'Detik', value: String(remaining.value.seconds).padStart(2, '0') },
+])
 
 async function initParticles() {
   const [{ tsParticles }, { loadFull }] = await Promise.all([
@@ -148,6 +184,7 @@ onBeforeUnmount(() => {
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  justify-content: center;
   min-height: 100svh;
   text-align: center;
   background:
@@ -164,6 +201,11 @@ onBeforeUnmount(() => {
   opacity: 0.82;
   content: '';
   pointer-events: none;
+}
+
+.cover-section__top-image {
+  position: absolute;
+  top: -5rem;
 }
 
 .cover-section__particles {
@@ -264,29 +306,87 @@ onBeforeUnmount(() => {
   animation-delay: -1.4s;
 }
 
-.cover-section__tree {
+.cover-section__flower-border {
   position: absolute;
-  width: clamp(8.2rem, 19vw, 13rem);
+  /* width: clamp(8.2rem, 19vw, 13rem); */
+  width: clamp(16.4rem, 38vw, 26rem);
   height: auto;
   object-fit: contain;
-  opacity: 0.82;
+  opacity: 1;
   filter: drop-shadow(0 12px 24px rgba(31, 58, 95, 0.16));
   animation: tree-sway 9.2s ease-in-out infinite;
   pointer-events: none;
 }
 
-.cover-section__tree--left {
+/* .cover-section__flower-border--left {
   left: -1.8rem;
   bottom: -1.2rem;
   transform-origin: center bottom;
+} */
+.cover-section__flower-border--left {
+  left: 0rem;
+  bottom: 0rem;
+  transform-origin: center bottom;
 }
 
-.cover-section__tree--right {
-  right: -1.8rem;
-  top: 13%;
-  transform: scale(0.9);
+.cover-section__flower-border--right {
+  right: 0rem;
+  bottom: 0rem;
+  transform: scaleX(-1);
   transform-origin: center bottom;
   animation-delay: -3.4s;
+}
+
+.cover-section__bouquet {
+  position: absolute;
+  width: clamp(16rem, 40vw, 24rem);
+  height: auto;
+  object-fit: contain;
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cover-section__bouquet--top {
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cover-section__bouquet--bottom {
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cover-section__blossom {
+  position: absolute;
+  width: clamp(20rem, 50vw, 32rem);
+  height: auto;
+  object-fit: contain;
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cover-section__blossom--top {
+  top: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cover-section__blossom--bottom {
+  bottom: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cover-section__blossom--flowers {
+  bottom: -1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(22rem, 48vw, 34rem);
+  z-index: 3;
 }
 
 .cover-section__leaf {
@@ -313,7 +413,7 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
@@ -332,7 +432,9 @@ onBeforeUnmount(() => {
 }
 
 .cover-section__islamic-ornament-img {
-  width: clamp(3rem, 6vw, 4.25rem);
+  width: clamp(4rem, 8vw, 5.5rem);
+  margin-top: 3rem;
+  margin-bottom: 2rem;
   height: auto;
   object-fit: contain;
   animation: rotate-ornament 12s linear infinite;
@@ -356,8 +458,9 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 3;
   width: min(100%, 42rem);
-  margin: 0 auto;
-  padding: 2.35rem 1.8rem 2.55rem;
+  /* margin: 0 auto; */
+  margin-top: 3rem;
+  padding: 2.8rem 2rem 3rem;
   border: 1px solid rgba(201, 168, 76, 0.3);
   border-radius: 2.4rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.22));
@@ -395,46 +498,22 @@ onBeforeUnmount(() => {
 
 .cover-section__gate-flower {
   position: absolute;
-  width: clamp(2.4rem, 4vw, 3.4rem);
-  height: clamp(2.4rem, 4vw, 3.4rem);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.92), transparent 24%),
-    radial-gradient(circle at 30% 30%, rgba(230, 126, 149, 0.82), transparent 24%),
-    radial-gradient(circle at 70% 30%, rgba(230, 126, 149, 0.82), transparent 24%),
-    radial-gradient(circle at 30% 70%, rgba(241, 198, 101, 0.76), transparent 24%),
-    radial-gradient(circle at 70% 70%, rgba(241, 198, 101, 0.76), transparent 24%),
-    linear-gradient(135deg, rgba(242, 174, 191, 0.92), rgba(114, 199, 247, 0.46));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+  width: clamp(10rem, 16vw, 12rem);
+  height: auto;
+  object-fit: contain;
   opacity: 0.9;
-}
-
-.cover-section__gate-flower::before,
-.cover-section__gate-flower::after {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  content: '';
-}
-
-.cover-section__gate-flower::before {
-  transform: rotate(35deg) scale(0.82);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.cover-section__gate-flower::after {
-  transform: rotate(-35deg) scale(0.7);
-  background: rgba(64, 157, 221, 0.16);
+  pointer-events: none;
 }
 
 .cover-section__gate-flower--left {
   top: 0.45rem;
-  left: 0.75rem;
+  left: -0.25rem;
 }
 
 .cover-section__gate-flower--right {
   top: 0.45rem;
-  right: 0.75rem;
+  right: -0.25rem;
+  transform: scaleX(-1);
 }
 
 .cover-section__butterfly {
@@ -460,6 +539,7 @@ onBeforeUnmount(() => {
 .cover-section__butterfly::before {
   left: 0;
   border-radius: 90% 20% 70% 25%;
+
   transform: rotate(-18deg);
   transform-origin: right center;
 }
@@ -486,17 +566,52 @@ onBeforeUnmount(() => {
   z-index: 3;
   display: grid;
   justify-items: center;
-  gap: 1.15rem;
+  gap: 1.3rem;
+}
+
+.cover-section__countdown {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.cover-section__countdown-item {
+  display: grid;
+  min-width: 3.6rem;
+  min-height: 3.6rem;
+  place-items: center;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.cover-section__countdown-item strong {
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 4.5vw, 2rem);
+  line-height: 1;
+}
+
+.cover-section__countdown-item span {
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .cover-section__eyebrow {
   margin: 0;
-  color: var(--color-secondary);
-  font-size: 0.78rem;
-  font-weight: 800;
+  color: rgb(255, 219, 120);
+  font-size: 2rem;
+  margin-top: 4.5rem;
+  font-style: bold;
+  margin-bottom: 2rem;
+  font-family: 'Monsieur La Douceur', 'Great Vibes', cursive;
+  text-transform: none;
+  font-weight: 1000; /* Sesuaikan ketebalan */
   letter-spacing: 0.24em;
-  text-transform: uppercase;
-  text-shadow: 0 8px 22px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 16px 32px rgb(0, 160, 228);
 }
 
 .cover-section__title {
@@ -520,7 +635,7 @@ onBeforeUnmount(() => {
 .cover-section__date {
   margin: 0;
   border-top: 1px solid rgba(201, 168, 76, 0.5);
-  border-bottom: 1px solid rgba(64, 157, 221, 0.3);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.5);
   padding: 0.55rem 0.95rem;
   color: var(--color-primary);
   font-weight: 600;
@@ -533,9 +648,15 @@ onBeforeUnmount(() => {
   width: min(100%, 24rem);
   gap: 0.2rem;
   padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  /* border: 1px solid rgba(255, 255, 255, 0.7); */
+  border: 2px solid rgba(201, 168, 76, 0.5);
   box-shadow: 0 20px 55px rgba(64, 157, 221, 0.14);
-  background: rgba(255, 255, 255, 0.66);
+  background: linear-gradient(
+    135deg,
+    rgba(180, 210, 235, 0.65) 0%,      /* biru lembut agak gelap */
+    rgba(235, 245, 255, 0.9) 45%,      /* hampir putih kebiruan – titik cahaya */
+    rgba(200, 225, 245, 0.7) 100%      /* biru muda kembali */
+  );
   backdrop-filter: blur(14px);
 }
 
@@ -617,8 +738,10 @@ onBeforeUnmount(() => {
     opacity: 0.62;
   }
 
-  .cover-section__tree--right {
-    top: 8%;
+  .cover-section__flower-border--right {
+    bottom: 0;
+    transform: scaleX(-1);
+    right: 0;
   }
 
   .cover-section__gate {
