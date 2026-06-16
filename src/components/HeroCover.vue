@@ -602,7 +602,8 @@ onBeforeUnmount(() => {
 
 .cover-section__eyebrow {
   margin: 0;
-  color: rgb(255, 219, 120);
+  /* color: rgb(255, 219, 120); */
+  color: var(--color-primary);
   font-size: 2rem;
   margin-top: 4.5rem;
   font-style: bold;

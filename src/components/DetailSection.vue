@@ -43,16 +43,16 @@ const events = [
     title: 'Akad Nikah',
     date: 'Sabtu, 5 September 2026',
     time: '10.00 WIB - selesai',
-    place: 'Masjid Al-Ikhlas, Jakarta Selatan',
-    mapsUrl: 'https://maps.google.com/?q=Masjid%20Al-Ikhlas%20Jakarta%20Selatan',
+    place: 'Masjid Miftahul Jannah, Cileungsi, Bogor',
+    mapsUrl: 'https://maps.app.goo.gl/it56yWVq7sD3X5JL9',
   },
   {
     label: 'Walimatul Ursy',
     title: 'Resepsi',
     date: 'Sabtu, 5 September 2026',
     time: '13.00 - 17.00 WIB',
-    place: 'Gedung Serbaguna As-Salam, Jakarta Selatan',
-    mapsUrl: 'https://maps.google.com/?q=Gedung%20Serbaguna%20As-Salam%20Jakarta%20Selatan',
+    place: 'Masjid Miftahul Jannah, Cileungsi, Bogor',
+    mapsUrl: 'https://maps.app.goo.gl/it56yWVq7sD3X5JL9',
   },
 ]
 
