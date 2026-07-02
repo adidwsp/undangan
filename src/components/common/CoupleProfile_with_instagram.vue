@@ -77,28 +77,12 @@
             </div>
 
             <div class="profil-section__photo-wrap profil-section__photo-wrap--groom">
-              <!-- <div class="profil-section__photo-card">
+              <div class="profil-section__photo-card">
                 <img
                   :src="people[0].image"
                   :alt="people[0].alt"
                   class="profil-section__person profil-section__person--groom"
                 />
-                <img
-                  :src="frameBlossom"
-                  class="profil-section__frame"
-                  alt=""
-                  aria-hidden="true"
-                />
-              </div> -->
-              <div class="profil-section__photo-card">
-                <div class="profil-section__photo-mask">
-                  <img
-                    :src="people[0].image"
-                    :alt="people[0].alt"
-                    class="profil-section__person profil-section__person--groom"
-                  />
-                </div>
-
                 <img
                   :src="frameBlossom"
                   class="profil-section__frame"
@@ -116,28 +100,12 @@
           <!-- Bride: image left, text right -->
           <article class="profil-section__row profil-section__row--bride">
             <div class="profil-section__photo-wrap profil-section__photo-wrap--bride">
-              <!-- <div class="profil-section__photo-card">
+              <div class="profil-section__photo-card">
                 <img
                   :src="people[1].image"
                   :alt="people[1].alt"
                   class="profil-section__person profil-section__person--bride"
                 />
-                <img
-                  :src="frameBlossom"
-                  class="profil-section__frame"
-                  alt=""
-                  aria-hidden="true"
-                />
-              </div> -->
-              <div class="profil-section__photo-card">
-                <div class="profil-section__photo-mask">
-                  <img
-                    :src="people[1].image"
-                    :alt="people[1].alt"
-                    class="profil-section__person profil-section__person--bride"
-                  />
-                </div>
-
                 <img
                   :src="frameBlossom"
                   class="profil-section__frame"
@@ -635,13 +603,6 @@ onBeforeUnmount(() => {
     inset 0 1px 0 rgba(255, 255, 255, 0.86);
   overflow: visible;
 }
-.profil-section__photo-mask {
-  position: absolute;
-  inset: 0.45rem;
-  z-index: 2;
-  overflow: hidden;
-  border-radius: 1.05rem;
-}
 
 .profil-section__photo-card::after {
   content: '';
@@ -655,10 +616,10 @@ onBeforeUnmount(() => {
 .profil-section__person {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: -0.1rem;
   z-index: 2;
-  width: 86%;
-  height: 90%;
+  width: 83%;
+  height: 92%;
   object-fit: contain;
   object-position: center bottom;
   transform: translateX(-50%);
@@ -666,8 +627,8 @@ onBeforeUnmount(() => {
 }
 
 .profil-section__person--bride {
-  width: 90%;
-  height: 91%;
+  width: 88%;
+  height: 93%;
 }
 
 .profil-section__frame {
