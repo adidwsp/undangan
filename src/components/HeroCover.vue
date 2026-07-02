@@ -36,12 +36,14 @@
       <div class="section__inner cover-section__inner">
         <!-- <p ref="eyebrowRef" class="cover-section__eyebrow">The Wedding of</p> -->
         <div class="cover-section__title-stack">
-          <img :src="rose" class="cover-section__islamic-ornament-img" alt="ornament" />
+          <div class="cover-section__ornament-wrap">
+            <img :src="rose" class="cover-section__islamic-ornament-img" alt="ornament" />
+          </div>
           <h1 ref="titleRef" id="cover-title" class="cover-section__title">
-            Adi <span style="color: #c9a84c">&</span> Annisa
+            Adi <span style="color: #c9a84c">&</span> Anis
           </h1>
         </div>
-        <p ref="dateRef" class="cover-section__date">Sabtu, 5 September 2026</p>
+        <p ref="dateRef" class="cover-section__date">Minggu, 6 September 2026</p>
 
         <div class="cover-section__countdown" role="timer" aria-live="polite">
           <GlassCard v-for="item in countdownItems" :key="item.label" class="cover-section__countdown-item">
@@ -100,7 +102,7 @@ const buttonRef = ref(null)
 let particlesInstance
 
 // Countdown to the wedding date shown on the card
-const { remaining } = useCountdown('2026-09-05T00:00:00+07:00')
+const { remaining } = useCountdown('2026-09-06T00:00:00+07:00')
 
 const countdownItems = computed(() => [
   { label: 'Hari', value: String(remaining.value.days).padStart(2, '0') },
@@ -410,11 +412,18 @@ onBeforeUnmount(() => {
 }
 
 .cover-section__title-stack {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0.9rem;
+  flex-wrap: nowrap;
+}
+
+.cover-section__ornament-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cover-section__islamic-ornament {
@@ -433,8 +442,7 @@ onBeforeUnmount(() => {
 
 .cover-section__islamic-ornament-img {
   width: clamp(4rem, 8vw, 5.5rem);
-  margin-top: 3rem;
-  margin-bottom: 2rem;
+  margin: 0;
   height: auto;
   object-fit: contain;
   animation: rotate-ornament 12s linear infinite;
@@ -726,6 +734,30 @@ onBeforeUnmount(() => {
   }
   50% {
     transform: translate3d(0.45rem, -0.4rem, 0) rotate(6deg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cover-section__gate {
+    width: min(100%, 46rem);
+    margin-top: 2rem;
+    padding: 3rem 2.75rem 3.2rem;
+  }
+
+  .cover-section__inner {
+    gap: 1.4rem;
+  }
+
+  .cover-section__title-stack {
+    gap: 1.1rem;
+  }
+
+  .cover-section__flower-border {
+    width: clamp(18rem, 24vw, 26rem);
+  }
+
+  .cover-section__blossom--flowers {
+    width: clamp(24rem, 33vw, 34rem);
   }
 }
 

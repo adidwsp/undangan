@@ -10,9 +10,9 @@
 
     <div class="cover-section__inner section__inner">
       <p class="section__eyebrow">The Wedding of</p>
-      <h1 id="cover-title" class="cover-section__title">Adi &amp; Annisa</h1>
+      <h1 id="cover-title" class="cover-section__title">Adi &amp; Anis</h1>
 
-      <div class="cover-section__date">Sabtu, 5 September 2026</div>
+      <div class="cover-section__date">Minggu, 6 September 2026</div>
 
       <div class="cover-section__guest glass-card">
         <span>Kepada Yth.</span>

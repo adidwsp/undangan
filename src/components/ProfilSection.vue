@@ -49,7 +49,7 @@ const people = [
     image: groomImage,
     alt: 'Placeholder foto formal mempelai pria dengan jas putih',
     modifier: 'profil-section__photo--groom',
-    details: ['Putra dari Bapak dan Ibu Saputra', 'Berikhtiar membangun keluarga Qurani', 'Lulusan Teknik Informatika'],
+    details: ['Putra ke-2 dari Bapak dan Ibu Saputra', 'Berikhtiar membangun keluarga Qurani', 'Lulusan Teknik Informatika'],
   },
   {
     role: 'Mempelai Wanita',
@@ -57,7 +57,7 @@ const people = [
     image: brideImage,
     alt: 'Placeholder foto formal mempelai wanita dengan gamis putih dan hijab syari',
     modifier: 'profil-section__photo--bride',
-    details: ['Putri dari Bapak dan Ibu Annisa', 'Berkomitmen menjaga ilmu dan adab', 'Lulusan Pendidikan Islam'],
+    details: ['Putri pertama dari Bapak dan Ibu Annisa', 'Berkomitmen menjaga ilmu dan adab', 'Lulusan Pendidikan Islam'],
   },
 ]
 

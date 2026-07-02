@@ -2,8 +2,9 @@
   <section id="journey" class="section journey-section soft-band" aria-labelledby="journey-title">
     <div class="section__inner">
       <SectionHeading eyebrow="Perjalanan Kami" title="Melalui Jalan yang Baik" id="journey-title">
-        Tahapan ini ditampilkan sebagai pengingat bahwa pernikahan dapat dimulai dengan cara yang
-        terjaga, jelas, dan melibatkan keluarga.
+        Setiap pernikahan memiliki kisahnya masing-masing.
+        Perjalanan ini kami lalui selangkah demi selangkah dengan menjaga niat, dibersamai dengan keluarga, dan memohon petunjuk Allah di setiap prosesnya.
+        <p> Semoga setiap langkah yang dimulai dengan kebaikan, berakhir dengan keberkahan. </p>
       </SectionHeading>
 
       <ol class="journey-section__timeline">
@@ -25,23 +26,19 @@ import SectionHeading from '@/components/common/SectionHeading.vue'
 const journey = [
   {
     title: 'Persiapan Diri',
-    description: 'Memperbaiki niat, menata kesiapan, dan meminta nasihat dari keluarga serta guru.',
-  },
-  {
-    title: 'Tukar CV',
-    description: 'Saling mengenal informasi utama secara tertulis dengan batasan yang terjaga.',
+    description: 'Menata hati, memperbaiki niat, dan mempersiapkan diri untuk memikul amanah dalam membangun sebuah keluarga.',
   },
   {
     title: 'Taaruf',
-    description: 'Proses mengenal yang diarahkan pada tujuan pernikahan, bukan sekadar kedekatan.',
+    description: 'Saling mengenal dengan tujuan yang jelas, dalam proses yang terjaga dan dengan keluarga yang membersamai.',
   },
   {
     title: 'Nadzhar',
-    description: 'Pertemuan terarah dengan pendamping untuk memantapkan ikhtiar dan keputusan.',
+    description: 'Pertemuan untuk saling melihat dan mengenal secara langsung sebagai bagian dari ikhtiar menuju pernikahan.',
   },
   {
     title: 'Khitbah',
-    description: 'Keluarga bertemu untuk menyampaikan keseriusan dan menyepakati langkah berikutnya.',
+    description: 'Pertemuan dua keluarga sebagai tanda keseriusan untuk melangkah menuju akad.',
   },
   {
     title: 'Akad',

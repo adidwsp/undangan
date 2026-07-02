@@ -22,6 +22,7 @@ import { useRoute } from 'vue-router'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
+import {supabase} from '@/utils/supabase'
 
 import AppPreloader from '@/components/AppPreloader.vue'
 import AyatSection from '@/components/AyatSection.vue'
@@ -47,6 +48,15 @@ let lenis = null
 let rafId = null
 let sound = null
 let hasOpened = false
+
+function setScrollLocked(locked) {
+  document.documentElement.classList.toggle('scroll-locked', locked)
+  document.body.classList.toggle('scroll-locked', locked)
+
+  if (locked) {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }
+}
 
 const navigationItems = [
   { id: 'cover', label: 'Cover' },
@@ -84,35 +94,60 @@ function initLenis() {
 
   lenis.on('scroll', ScrollTrigger.update)
   lenis.stop()
+  setScrollLocked(true)
 }
 
-async function handleInvitationOpen() {
-  if (!hasOpened) {
-    hasOpened = true
+function scrollToNextSection() {
+  const target = document.getElementById('ayat')
 
-    if (!sound) {
-      const { Howl } = await import('howler')
-      const audioSrc = (await import('@/assets/audio/nasyid-instrumental-placeholder.wav')).default
+  if (!target) return
 
-      sound = new Howl({
-        src: [audioSrc],
-        loop: true,
-        volume: 0,
-        html5: false,
-      })
+  setScrollLocked(false)
 
-      sound.play()
+  requestAnimationFrame(() => {
+    lenis?.start()
+    const offset = window.innerWidth < 768 ? 24 : 48
+
+    if (lenis) {
+      lenis.scrollTo(target, { offset: -offset, duration: 1.1 })
+      return
     }
 
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  })
+}
+
+async function initializeSound() {
+  if (sound) {
     sound?.fade(0, 0.2, 2000)
+    return
   }
 
-  lenis?.start()
+  try {
+    const { Howl } = await import('howler')
+    const audioSrc = (await import('@/assets/audio/nasyid-instrumental-placeholder.wav')).default
 
-  const target = document.getElementById('ayat')
-  if (target) {
-    lenis?.scrollTo(target)
+    sound = new Howl({
+      src: [audioSrc],
+      loop: true,
+      volume: 0,
+      html5: false,
+    })
+
+    sound.play()
+    sound.fade(0, 0.2, 2000)
+  } catch (error) {
+    console.warn('Unable to initialize invitation sound:', error)
   }
+}
+
+function handleInvitationOpen() {
+  if (!hasOpened) {
+    hasOpened = true
+    void initializeSound()
+  }
+
+  scrollToNextSection()
 }
 
 function handlePreloaderReady() {
@@ -122,10 +157,12 @@ function handlePreloaderReady() {
 
 onMounted(() => {
   initLenis()
+  setScrollLocked(true)
   window.requestAnimationFrame(() => ScrollTrigger.refresh())
 })
 
 onBeforeUnmount(() => {
+  setScrollLocked(false)
   if (rafId) window.cancelAnimationFrame(rafId)
   lenis?.destroy()
   delete window.lenis

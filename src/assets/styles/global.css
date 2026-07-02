@@ -69,6 +69,11 @@ textarea {
   min-height: 100vh;
 }
 
+.scroll-locked {
+  overflow: hidden;
+  height: 100%;
+}
+
 .lenis.lenis-smooth {
   scroll-behavior: auto;
 }

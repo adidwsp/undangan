@@ -41,18 +41,18 @@ const events = [
   {
     label: 'Ijab Qabul',
     title: 'Akad Nikah',
-    date: 'Sabtu, 5 September 2026',
-    time: '10.00 WIB - selesai',
-    place: 'Masjid Miftahul Jannah, Cileungsi, Bogor',
-    mapsUrl: 'https://maps.app.goo.gl/it56yWVq7sD3X5JL9',
+    date: 'Minggu, 6 September 2026',
+    time: '09.00 WIB - 16.00 WIB',
+    place: 'Masjid Darussalam Kota Wisata, Gn. Putri, Bogor',
+    mapsUrl: 'https://maps.app.goo.gl/CJ5EE6jL6GBaQCFh9',
   },
   {
     label: 'Walimatul Ursy',
     title: 'Resepsi',
-    date: 'Sabtu, 5 September 2026',
-    time: '13.00 - 17.00 WIB',
-    place: 'Masjid Miftahul Jannah, Cileungsi, Bogor',
-    mapsUrl: 'https://maps.app.goo.gl/it56yWVq7sD3X5JL9',
+    date: 'Minggu, 6 September 2026',
+    time: '13.00 - 16.00 WIB',
+    place: 'Masjid Darussalam Kota Wisata, Gn. Putri, Bogor',
+    mapsUrl: 'https://maps.app.goo.gl/CJ5EE6jL6GBaQCFh9',
   },
 ]
 
