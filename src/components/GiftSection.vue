@@ -98,8 +98,8 @@ const accounts = [
   {
     bank: 'BCA',
     name: 'Adi Dwi Saputra',
-    number: '1234 5678 9012',
-    rawNumber: '123456789012',
+    number: '109 316 7973',
+    rawNumber: '1093167973',
   },
   {
     bank: 'BCA',
