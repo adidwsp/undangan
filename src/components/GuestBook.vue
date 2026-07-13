@@ -61,6 +61,7 @@
             </label>
           </div>
 
+          <!-- Konfirmasi Kehadiran - custom select modern -->
           <div class="wishes-section__field">
             <div class="wishes-section__field-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
@@ -73,14 +74,22 @@
 
             <label>
               <span>Konfirmasi Kehadiran</span>
-              <select v-model="form.attendance" class="wishes-section__input">
-                <option value="Hadir">Hadir</option>
-                <option value="Tidak Hadir">Tidak Hadir</option>
-                <option value="Belum Pasti">Belum Pasti</option>
-              </select>
+              <div class="wishes-section__select-wrapper">
+                <select v-model="form.attendance" class="wishes-section__input wishes-section__select">
+                  <option value="Hadir">Hadir</option>
+                  <option value="Tidak Hadir">Tidak Hadir</option>
+                  <option value="Belum Pasti">Belum Pasti</option>
+                </select>
+                <span class="wishes-section__select-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
             </label>
           </div>
 
+          <!-- Jumlah Tamu - input angka -->
           <div class="wishes-section__field">
             <div class="wishes-section__field-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24">
@@ -93,11 +102,14 @@
 
             <label>
               <span>Jumlah Tamu</span>
-              <select v-model.number="form.guest_count" class="wishes-section__input">
-                <option v-for="count in guestCounts" :key="count" :value="count">
-                  {{ count }}
-                </option>
-              </select>
+              <input
+                v-model.number="form.guest_count"
+                class="wishes-section__input wishes-section__input-number"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="0"
+              />
             </label>
           </div>
 
@@ -171,6 +183,7 @@
         </form>
       </div>
 
+      <!-- Daftar Ucapan dengan Filter & Pagination -->
       <section class="wishes-section__list-card" aria-live="polite">
         <div class="wishes-section__list-header">
           <div class="wishes-section__list-title">
@@ -181,14 +194,36 @@
               </svg>
             </span>
             <h3>Ucapan &amp; Doa Terkirim</h3>
+            <span class="wishes-section__count-badge">{{ filteredWishes.length }}</span>
           </div>
 
-          <button class="wishes-section__filter" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 5h16l-6 7v5l-4 2v-7L4 5Z" />
-            </svg>
-            <span>Filter</span>
-          </button>
+          <!-- Tombol Filter aktif -->
+          <div class="wishes-section__filter-wrapper">
+            <button
+              class="wishes-section__filter"
+              type="button"
+              @click="toggleFilterMenu"
+              :aria-expanded="filterMenuOpen"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 5h16l-6 7v5l-4 2v-7L4 5Z" />
+              </svg>
+              <span>Filter</span>
+              <span class="wishes-section__filter-badge" v-if="filterStatus !== 'all'">●</span>
+            </button>
+
+            <div v-if="filterMenuOpen" class="wishes-section__filter-menu">
+              <button
+                v-for="option in filterOptions"
+                :key="option.value"
+                @click="setFilter(option.value)"
+                class="wishes-section__filter-option"
+                :class="{ 'is-active': filterStatus === option.value }"
+              >
+                {{ option.label }}
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="wishes-section__list">
@@ -197,7 +232,7 @@
           </article>
 
           <article
-            v-for="wish in wishesStore.items"
+            v-for="wish in paginatedWishes"
             :key="wish.id"
             class="wishes-section__wish"
           >
@@ -238,13 +273,40 @@
           </article>
 
           <article
-            v-if="!wishesStore.isLoading && wishesStore.items.length === 0"
+            v-if="!wishesStore.isLoading && filteredWishes.length === 0"
             class="wishes-section__wish"
           >
             <p class="wishes-section__empty">
-              Jadilah yang pertama menitipkan doa.
+              {{ filterStatus === 'all' ? 'Jadilah yang pertama menitipkan doa.' : 'Tidak ada ucapan dengan status ini.' }}
             </p>
           </article>
+        </div>
+
+        <!-- Pagination -->
+        <div v-if="totalPages > 1" class="wishes-section__pagination">
+          <button
+            @click="changePage(currentPage - 1)"
+            :disabled="currentPage === 1"
+            class="wishes-section__page-btn"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <span class="wishes-section__page-info">
+            {{ currentPage }} / {{ totalPages }}
+          </span>
+
+          <button
+            @click="changePage(currentPage + 1)"
+            :disabled="currentPage === totalPages"
+            class="wishes-section__page-btn"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
       </section>
 
@@ -258,7 +320,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, ref, computed, watch } from 'vue'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 
@@ -277,7 +339,18 @@ const wishesStore = useWishesStore()
 const rsvpStore = useRsvpStore()
 const feedback = ref('')
 
-const guestCounts = [1, 2, 3, 4, 5, 6]
+// Filter & Pagination state
+const filterStatus = ref('all')
+const filterMenuOpen = ref(false)
+const currentPage = ref(1)
+const itemsPerPage = 10
+
+const filterOptions = [
+  { value: 'all', label: 'Semua' },
+  { value: 'Hadir', label: 'Hadir' },
+  { value: 'Tidak Hadir', label: 'Tidak Hadir' },
+  { value: 'Belum Pasti', label: 'Belum Pasti' },
+]
 
 const form = reactive({
   guest_name: guestStore.displayName,
@@ -287,33 +360,52 @@ const form = reactive({
 })
 
 const chips = [
-  {
-    icon: '♡',
-    text: 'Barakallahu lakuma',
-  },
-  {
-    icon: '✿',
-    text: 'Semoga menjadi keluarga sakinah',
-  },
-  {
-    icon: '♧',
-    text: 'Semoga Allah mudahkan setiap langkah',
-  },
-  {
-    icon: '✧',
-    text: 'Semoga selalu diberi kebahagiaan',
-  },
+  { icon: '♡', text: 'Barakallahu lakuma' },
+  { icon: '✿', text: 'Semoga menjadi keluarga sakinah' },
+  { icon: '♧', text: 'Semoga Allah mudahkan setiap langkah' },
+  { icon: '✧', text: 'Semoga selalu diberi kebahagiaan' },
 ]
 
-watch(
-  () => guestStore.displayName,
-  (name) => {
-    if (!form.guest_name || form.guest_name === 'Tamu Undangan') {
-      form.guest_name = name
-    }
-  },
-)
+// Computed: filter wishes
+const filteredWishes = computed(() => {
+  if (filterStatus.value === 'all') {
+    return wishesStore.items
+  }
+  return wishesStore.items.filter(wish =>
+    getAttendanceStatus(wish.message) === filterStatus.value
+  )
+})
 
+// Computed: pagination
+const totalPages = computed(() => Math.ceil(filteredWishes.value.length / itemsPerPage))
+
+const paginatedWishes = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return filteredWishes.value.slice(start, end)
+})
+
+// Reset to page 1 when filter changes
+watch(filterStatus, () => {
+  currentPage.value = 1
+})
+
+function toggleFilterMenu() {
+  filterMenuOpen.value = !filterMenuOpen.value
+}
+
+function setFilter(value) {
+  filterStatus.value = value
+  filterMenuOpen.value = false
+}
+
+function changePage(page) {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+
+// Existing methods
 function applyChip(chip) {
   form.message = chip
 }
@@ -330,7 +422,6 @@ function getAttendanceStatus(message = '') {
 
 function getStatusClass(message = '') {
   const status = getAttendanceStatus(message)
-
   return {
     'wishes-section__status--present': status === 'Hadir',
     'wishes-section__status--absent': status === 'Tidak Hadir',
@@ -339,17 +430,14 @@ function getStatusClass(message = '') {
 }
 
 function getGuestCount(message = '') {
-  const result = message.match(/(\d+)\s*tamu/i)
-  return result?.[1] || '0'
+  const match = message.match(/(\d+)\s*tamu/i)
+  return match?.[1] || '0'
 }
 
 function formatWishMeta(wish) {
   if (!wish.created_at) return 'Baru saja'
-
   const date = new Date(wish.created_at)
-
-  if (Number.isNaN(date.getTime())) return 'Baru saja'
-
+  if (isNaN(date.getTime())) return 'Baru saja'
   return new Intl.DateTimeFormat('id-ID', {
     day: 'numeric',
     month: 'long',
@@ -383,6 +471,12 @@ async function submitGuestBook() {
     if (!rsvpStore.error && !wishesStore.error) {
       feedback.value = 'Terima kasih, doa dan konfirmasi Anda telah tersimpan.'
       form.message = ''
+      // 🔥 Refresh daftar ucapan agar langsung muncul
+      await wishesStore.loadWishes()
+      // Reset ke halaman pertama agar ucapan terbaru terlihat
+      currentPage.value = 1
+      // Tutup filter menu jika terbuka
+      filterMenuOpen.value = false
     }
   } catch (error) {
     feedback.value = error.message
@@ -434,6 +528,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* === Gaya umum (tetap seperti sebelumnya, hanya tambahan/modifikasi) === */
+
 .wishes-section {
   position: relative;
   isolation: isolate;
@@ -600,7 +696,8 @@ onBeforeUnmount(() => {
 .wishes-section__list-title svg,
 .wishes-section__filter svg,
 .wishes-section__submit svg,
-.wishes-section__guest-count svg {
+.wishes-section__guest-count svg,
+.wishes-section__page-btn svg {
   width: 45%;
   height: 45%;
   fill: none;
@@ -623,6 +720,7 @@ onBeforeUnmount(() => {
   line-height: 1.25;
 }
 
+/* === Input & Select Modern === */
 .wishes-section__input {
   width: 100%;
   min-width: 0;
@@ -651,6 +749,53 @@ onBeforeUnmount(() => {
   box-shadow:
     0 0 0 4px rgba(79, 132, 203, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+/* Select wrapper dan arrow */
+.wishes-section__select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.wishes-section__select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 3rem;
+  cursor: pointer;
+}
+
+.wishes-section__select-arrow {
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #4d84cc;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishes-section__select-arrow svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Input number - hilangkan spinner */
+.wishes-section__input-number::-webkit-inner-spin-button,
+.wishes-section__input-number::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.wishes-section__input-number {
+  -moz-appearance: textfield;
 }
 
 .wishes-section__textarea {
@@ -790,6 +935,7 @@ onBeforeUnmount(() => {
   color: #a34242;
 }
 
+/* === List Card === */
 .wishes-section__list-card {
   margin-top: clamp(1.4rem, 4vw, 2rem);
   padding: clamp(1rem, 3vw, 1.55rem);
@@ -801,6 +947,7 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .wishes-section__list-title {
@@ -826,6 +973,21 @@ onBeforeUnmount(() => {
   font-weight: 800;
 }
 
+.wishes-section__count-badge {
+  background: rgba(79, 132, 203, 0.12);
+  color: #4f84cc;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  line-height: 1.6;
+}
+
+/* === Filter === */
+.wishes-section__filter-wrapper {
+  position: relative;
+}
+
 .wishes-section__filter {
   display: inline-flex;
   align-items: center;
@@ -837,6 +999,12 @@ onBeforeUnmount(() => {
   background: rgba(255, 255, 255, 0.62);
   font: inherit;
   font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.wishes-section__filter:hover {
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .wishes-section__filter svg {
@@ -844,6 +1012,50 @@ onBeforeUnmount(() => {
   height: 1rem;
 }
 
+.wishes-section__filter-badge {
+  color: #c9a24a;
+  font-size: 0.6rem;
+  margin-left: -0.2rem;
+}
+
+.wishes-section__filter-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 10rem;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(133, 185, 226, 0.3);
+  border-radius: 0.75rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  padding: 0.4rem 0;
+  z-index: 10;
+}
+
+.wishes-section__filter-option {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: transparent;
+  color: #1f3f69;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.wishes-section__filter-option:hover {
+  background: rgba(79, 132, 203, 0.08);
+}
+
+.wishes-section__filter-option.is-active {
+  background: rgba(79, 132, 203, 0.12);
+  color: #4f84cc;
+}
+
+/* === Wish List === */
 .wishes-section__list {
   display: grid;
   max-height: 35rem;
@@ -945,12 +1157,16 @@ onBeforeUnmount(() => {
   height: 1rem;
 }
 
+/* Perbaikan: wrap teks panjang tanpa spasi */
 .wishes-section__message,
 .wishes-section__empty {
   margin: 0.8rem 0 0;
   color: #40566f;
   font-size: 0.96rem;
   line-height: 1.55;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .wishes-section__empty {
@@ -959,10 +1175,64 @@ onBeforeUnmount(() => {
   text-align: center;
 }
 
+/* === Pagination === */
+.wishes-section__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(133, 185, 226, 0.2);
+}
+
+.wishes-section__page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid rgba(105, 157, 214, 0.25);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.6);
+  color: #295f9f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wishes-section__page-btn svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+.wishes-section__page-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(79, 132, 203, 0.6);
+}
+
+.wishes-section__page-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.wishes-section__page-info {
+  font-weight: 700;
+  color: #1f3f69;
+  font-size: 0.95rem;
+  min-width: 4rem;
+  text-align: center;
+}
+
 .wishes-section__bottom-divider {
   margin-top: clamp(1.8rem, 5vw, 2.6rem);
 }
 
+/* === Responsive === */
 @media (max-width: 700px) {
   .wishes-section::before {
     inset: 0.55rem;
@@ -1007,6 +1277,11 @@ onBeforeUnmount(() => {
 
   .wishes-section__wish-badges {
     align-self: flex-start;
+  }
+
+  .wishes-section__filter-menu {
+    right: auto;
+    left: 0;
   }
 }
 
@@ -1070,6 +1345,7 @@ onBeforeUnmount(() => {
 
   .wishes-section__list-header {
     align-items: flex-start;
+    flex-direction: column;
   }
 
   .wishes-section__filter {
@@ -1098,6 +1374,15 @@ onBeforeUnmount(() => {
 
   .wishes-section__status {
     font-size: 0.76rem;
+  }
+
+  .wishes-section__pagination {
+    gap: 0.6rem;
+  }
+
+  .wishes-section__page-btn {
+    width: 2rem;
+    height: 2rem;
   }
 }
 </style>

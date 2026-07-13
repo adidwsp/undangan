@@ -168,7 +168,7 @@ const events = [
       {
         icon: 'date',
         label: 'Tanggal',
-        value: 'Minggu, 6 September 2026',
+        value: 'Ahad, 6 September 2026',
       },
       {
         icon: 'time',
@@ -191,7 +191,7 @@ const events = [
       {
         icon: 'date',
         label: 'Tanggal',
-        value: 'Minggu, 6 September 2026',
+        value: 'Ahad, 6 September 2026',
       },
       {
         icon: 'time',

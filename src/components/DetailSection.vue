@@ -41,7 +41,7 @@ const events = [
   {
     label: 'Ijab Qabul',
     title: 'Akad Nikah',
-    date: 'Minggu, 6 September 2026',
+    date: 'Ahad, 6 September 2026',
     time: '09.00 WIB - 16.00 WIB',
     place: 'Masjid Darussalam Kota Wisata, Gn. Putri, Bogor',
     mapsUrl: 'https://maps.app.goo.gl/CJ5EE6jL6GBaQCFh9',
@@ -49,7 +49,7 @@ const events = [
   {
     label: 'Walimatul Ursy',
     title: 'Resepsi',
-    date: 'Minggu, 6 September 2026',
+    date: 'Ahad, 6 September 2026',
     time: '13.00 - 16.00 WIB',
     place: 'Masjid Darussalam Kota Wisata, Gn. Putri, Bogor',
     mapsUrl: 'https://maps.app.goo.gl/CJ5EE6jL6GBaQCFh9',

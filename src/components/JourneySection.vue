@@ -64,25 +64,31 @@
 
           <article class="journey-section__card">
             <div class="journey-section__icon" aria-hidden="true">
-              <svg v-if="item.icon === 'preparation'">
-                <image href="/src/assets/images/journey/preparation.png"/>
-              </svg>
-
-              <svg v-else-if="item.icon === 'taaruf'">
-                <image href="/src/assets/images/journey/taaruf.png"/>
-              </svg>
-
-              <svg v-else-if="item.icon === 'nadzhar'">
-                <image href="/src/assets/images/journey/nadzhar.png"/>
-              </svg>
-
-              <svg v-else-if="item.icon === 'khitbah'">
-                <image href="/src/assets/images/journey/khitbah.png"/>
-              </svg>
-
-              <svg v-else if="item.icon === 'akad'" width="inherit">
-                <image href="/src/assets/images/journey/akad.png"/>
-              </svg>
+              <img
+                v-if="item.icon === 'preparation'"
+                src="/src/assets/images/journey/preparation.png"
+                alt=""
+              />
+              <img
+                v-else-if="item.icon === 'taaruf'"
+                src="/src/assets/images/journey/taaruf.png"
+                alt=""
+              />
+              <img
+                v-else-if="item.icon === 'nadzhar'"
+                src="/src/assets/images/journey/nadzhar.png"
+                alt=""
+              />
+              <img
+                v-else-if="item.icon === 'khitbah'"
+                src="/src/assets/images/journey/khitbah.png"
+                alt=""
+              />
+              <img
+                v-else-if="item.icon === 'akad'"
+                src="/src/assets/images/journey/akad.png"
+                alt=""
+              />
             </div>
 
             <div class="journey-section__card-content">
@@ -439,14 +445,12 @@ onBeforeUnmount(() => {
     0 12px 26px rgba(64, 118, 185, 0.1);
 }
 
-.journey-section__icon svg {
+/* Perbaikan: gambar di dalam icon agar selalu center dan proporsional */
+.journey-section__icon img {
   width: 100%;
   height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.85;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  object-fit: contain;
+  display: block;
 }
 
 .journey-section__card-content {

@@ -64,7 +64,7 @@
           </h1>
         </div>
 
-        <p ref="dateRef" class="cover-section__date">Minggu, 6 September 2026</p>
+        <p ref="dateRef" class="cover-section__date">Ahad, 6 September 2026</p>
 
         <div class="cover-section__countdown" role="timer" aria-live="polite">
           <GlassCard

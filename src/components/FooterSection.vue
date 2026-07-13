@@ -60,26 +60,13 @@
         <span></span>
       </div>
 
-      <a
-        class="footer-section__credit"
-        href="https://www.instagram.com/adi.dwsp/"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Buka Instagram Adi Dwi Saputra"
-      >
-        <span class="footer-section__credit-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" />
-            <path d="M16.5 7.5h.01" />
-            <circle cx="12" cy="12" r="3.5" />
-          </svg>
-        </span>
-
+      <!-- CREDIT: lebih subtle, tidak mencolok -->
+      <div class="footer-section__credit">
         <span class="footer-section__credit-text">
-          <small>Digital invitation crafted with love by</small>
+          <small>Digital Invitation by</small>
           <strong>Adi Dwi Saputra</strong>
         </span>
-      </a>
+      </div>
 
       <div class="footer-section__bottom-line" aria-hidden="true">
         <span></span>
@@ -87,8 +74,11 @@
         <span></span>
       </div>
 
+      <!-- Penutup yang lebih elegan -->
       <p class="footer-section__closing-note">
-        With Love &amp; Gratitude
+        <span class="footer-section__arabic">بارك الله فيكم</span>
+        <span class="footer-section__transliteration">Barakallahu fiikum</span>
+        <span class="footer-section__meaning">semoga Allah melimpahkan keberkahan kepada kalian semua</span>
       </p>
     </div>
   </footer>
@@ -191,8 +181,9 @@ const guestStore = useGuestStore()
 }
 
 .footer-section__bottom-line {
-  margin-top: 2.2rem;
-  width: min(100%, 32rem);
+  margin-top: 1.8rem;
+  margin-bottom: 1.2rem;
+  width: min(100%, 20rem);
 }
 
 .footer-section__top-divider span,
@@ -280,84 +271,76 @@ const guestStore = useGuestStore()
   line-height: 1;
 }
 
+/* ===== CREDIT ===== */
+/* Diperhalus: tidak mencolok, warna lembut, tanpa border tebal */
 .footer-section__credit {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  width: min(100%, 28rem);
-  padding: 1rem 1.2rem;
-  border: 2px solid rgba(237, 198, 119, 0.85);
+  display: inline-block;
+  margin-top: 0.8rem;
+  padding: 0.4rem 1.2rem;
   border-radius: 999px;
-  color: #1f3d69;
-  text-decoration: none;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(245, 249, 255, 0.95));
-  box-shadow:
-    0 14px 28px rgba(18, 49, 95, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    filter 0.25s ease;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.25s ease;
 }
 
 .footer-section__credit:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.01);
-  box-shadow:
-    0 18px 34px rgba(18, 49, 95, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
-}
-
-.footer-section__credit-icon {
-  display: grid;
-  place-items: center;
-  width: 4.2rem;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  color: #2b568f;
-  background: linear-gradient(180deg, #ffffff, #edf4ff);
-  box-shadow: 0 8px 18px rgba(38, 79, 134, 0.12);
-  flex: 0 0 auto;
-}
-
-.footer-section__credit-icon svg {
-  width: 1.6rem;
-  height: 1.6rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .footer-section__credit-text {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .footer-section__credit-text small {
-  color: #556c8f;
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: inherit;
+  opacity: 0.7;
 }
 
 .footer-section__credit-text strong {
-  color: #1f3d69;
-  font-size: 0.95rem;
-  font-weight: 800;
-  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
+  font-size: 0.85rem;
 }
 
+/* ===== CLOSING NOTE (elegan, islami) ===== */
 .footer-section__closing-note {
-  margin: 1.2rem 0 0;
-  color: rgba(255, 244, 222, 0.94);
-  font-size: clamp(0.88rem, 2.4vw, 1rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin: 0.6rem 0 0;
+  color: rgba(255, 244, 222, 0.85);
+  font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+  line-height: 1.6;
+}
+
+.footer-section__arabic {
+  font-family: 'Traditional Arabic', 'Amiri', 'Scheherazade New', serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  line-height: 1.3;
+  color: #f7dec0;
+  letter-spacing: 0.04em;
+}
+
+.footer-section__transliteration {
+  font-size: clamp(0.85rem, 2vw, 1rem);
   font-weight: 500;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 244, 222, 0.8);
+}
+
+.footer-section__meaning {
+  font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+  font-weight: 300;
+  color: rgba(255, 244, 222, 0.6);
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 700px) {
@@ -379,6 +362,14 @@ const guestStore = useGuestStore()
   .footer-section__curve-divider {
     width: min(100%, 24rem);
   }
+
+  .footer-section__credit {
+    padding: 0.3rem 1rem;
+  }
+
+  .footer-section__credit-text {
+    font-size: 0.75rem;
+  }
 }
 
 @media (max-width: 430px) {
@@ -398,25 +389,28 @@ const guestStore = useGuestStore()
   }
 
   .footer-section__credit {
-    gap: 0.85rem;
-    padding: 0.85rem 0.95rem;
+    padding: 0.25rem 0.8rem;
   }
 
-  .footer-section__credit-icon {
-    width: 3.5rem;
-  }
-
-  .footer-section__credit-text small {
-    font-size: 0.82rem;
-  }
-
-  .footer-section__credit-text strong {
-    font-size: 0.9rem;
+  .footer-section__credit-text {
+    font-size: 0.7rem;
+    gap: 0.3rem;
   }
 
   .footer-section__closing-note {
-    letter-spacing: 0.22em;
+    gap: 0.1rem;
+  }
+
+  .footer-section__arabic {
+    font-size: 1.5rem;
+  }
+
+  .footer-section__transliteration {
     font-size: 0.8rem;
+  }
+
+  .footer-section__meaning {
+    font-size: 0.75rem;
   }
 }
 </style>
