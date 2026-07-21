@@ -14,6 +14,7 @@
     <GuestBook />
     <FooterSection />
   </main>
+  <FloatingAudioButton />
 </template>
 
 <script setup>
@@ -37,6 +38,7 @@ import JourneySection from '@/components/JourneySection.vue'
 import DecorativeOrnaments from '@/components/common/DecorativeOrnaments.vue'
 import NavigationDots from '@/components/common/NavigationDots.vue'
 import { useGuestStore } from '@/stores/guest'
+import FloatingAudioButton from '@/components/FloatingAudioButton.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -125,7 +127,7 @@ async function initializeSound() {
 
   try {
     const { Howl } = await import('howler')
-    const audioSrc = (await import('@/assets/audio/nasyid-instrumental-placeholder.wav')).default
+    const audioSrc = (await import('@/assets/audio/backsound.mp3')).default
 
     sound = new Howl({
       src: [audioSrc],
@@ -133,6 +135,8 @@ async function initializeSound() {
       volume: 0,
       html5: false,
     })
+
+    window.invitationSound = sound
 
     sound.play()
     sound.fade(0, 0.2, 2000)
