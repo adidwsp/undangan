@@ -10,7 +10,13 @@
           <form class="wishes-section__form" @submit.prevent="submitWish">
             <label>
               Nama
-              <input v-model="form.guest_name" class="input-field" type="text" required />
+              <input 
+                v-model="form.guest_name" 
+                class="input-field" 
+                type="text" 
+                required 
+                placeholder="Masukkan nama Anda"
+              />
             </label>
 
             <label>
@@ -58,7 +64,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 import GlassCard from '@/components/common/GlassCard.vue'
@@ -70,44 +76,18 @@ const route = useRoute()
 const guestStore = useGuestStore()
 const wishesStore = useWishesStore()
 
+// Form state
 const form = reactive({
-  guest_name: 'Tamu Undangan', // default sementara
+  guest_name: 'Tamu Undangan',
   message: '',
   prayer: '',
 })
-
-// 🔥 Flag untuk menghindari overwrite jika user sudah mengedit manual
-const isUserEdited = ref(false)
 
 const chips = [
   'Barakallahu lakuma',
   'Semoga menjadi keluarga sakinah',
   'Semoga Allah mudahkan setiap langkah',
 ]
-
-// 🔥 Sinkronkan form dengan store, tapi hanya jika user belum mengedit
-watch(
-  () => guestStore.displayName,
-  (newName) => {
-    // Jangan timpa jika user sudah mengedit manual
-    if (!isUserEdited.value && newName && newName !== 'Tamu Undangan') {
-      form.guest_name = newName
-    }
-  },
-  { immediate: true } // 🔥 Langsung jalankan saat komponen dibuat
-)
-
-// 🔥 Jika user mulai mengetik, tandai sebagai edited
-watch(
-  () => form.guest_name,
-  (val) => {
-    if (val && val !== guestStore.displayName) {
-      isUserEdited.value = true
-    } else if (val === guestStore.displayName) {
-      isUserEdited.value = false
-    }
-  }
-)
 
 function applyChip(chip) {
   form.message = chip
@@ -126,8 +106,21 @@ async function submitWish() {
   }
 }
 
+// 🔥 Sinkronkan form dengan store - dengan immediate: true
+watch(
+  () => guestStore.displayName,
+  (newName) => {
+    // Jika form masih kosong atau masih 'Tamu Undangan', update dengan nama dari store
+    if (!form.guest_name || form.guest_name === 'Tamu Undangan') {
+      form.guest_name = newName
+      console.log('🔄 Form updated dengan nama:', newName)
+    }
+  },
+  { immediate: true } // 🔥 Kunci: jalankan segera saat komponen dibuat
+)
+
 onMounted(async () => {
-  // 🔥 Ambil slug dari URL
+  // Ambil slug dari URL
   const slug = route.params.slug || 'guest'
   console.log('🔍 Slug dari URL:', slug)
 
@@ -135,12 +128,7 @@ onMounted(async () => {
   await guestStore.loadGuest(slug)
   console.log('✅ Nama tamu setelah load:', guestStore.displayName)
 
-  // 🔥 Isi form dengan nama dari store (jika belum diedit user)
-  if (!isUserEdited.value && guestStore.displayName) {
-    form.guest_name = guestStore.displayName
-  }
-
-  // Load wishes
+  // 🔥 Load wishes
   wishesStore.loadWishes()
   wishesStore.subscribeToWishes()
 })
@@ -182,6 +170,13 @@ onBeforeUnmount(() => {
   background: rgba(255, 255, 255, 0.84);
   font-size: 0.84rem;
   font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wishes-section__chips button:hover {
+  background: rgba(64, 157, 221, 0.1);
+  border-color: rgba(64, 157, 221, 0.4);
 }
 
 .wishes-section__form .primary-button {

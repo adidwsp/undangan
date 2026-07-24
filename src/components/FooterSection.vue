@@ -1,6 +1,7 @@
 <template>
   <footer
     id="footer"
+    ref="footerSection"
     class="section footer-section"
     aria-labelledby="footer-title"
   >
@@ -85,10 +86,178 @@
 </template>
 
 <script setup>
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { gsap } from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
 import { useGuestStore } from '@/stores/guest'
 import floralOrnament from '@/assets/images/topleft-blossom-gold.png'
 
+gsap.registerPlugin(ScrollTrigger)
+
 const guestStore = useGuestStore()
+const footerSection = ref(null)
+let animationContext = null
+
+onMounted(() => {
+  animationContext = gsap.context(() => {
+    // 1. Parallax ornaments — slow drift
+    gsap.to('.footer-section__ornament--left', {
+      y: -18,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.footer-section',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5,
+      },
+    })
+    gsap.to('.footer-section__ornament--right', {
+      y: -24,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.footer-section',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 2,
+      },
+    })
+
+    // 2. Staggered reveal of all text elements
+    const footerTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.footer-section__inner',
+        start: 'top 88%',
+        once: true,
+      },
+    })
+
+    footerTl
+      .from('.footer-section__top-divider', {
+        scaleX: 0,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        transformOrigin: 'center center',
+      })
+      .from('.footer-section__eyebrow', {
+        y: 30,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+      }, '-=0.25')
+      .from('.footer-section__title', {
+        y: 40,
+        opacity: 0,
+        scale: 0.96,
+        duration: 0.7,
+        ease: 'power3.out',
+      }, '-=0.2')
+      .from('.footer-section__title span', {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+      }, '-=0.35')
+      .from('.footer-section__lead', {
+        y: 24,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      }, '-=0.3')
+      .from('.footer-section__middle-divider', {
+        scaleX: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+        transformOrigin: 'center center',
+      }, '-=0.2')
+      .from('.footer-section__prayer', {
+        y: 24,
+        opacity: 0,
+        duration: 0.55,
+        ease: 'power2.out',
+      }, '-=0.25')
+      .from('.footer-section__names', {
+        y: 30,
+        opacity: 0,
+        scale: 0.92,
+        duration: 0.65,
+        ease: 'back.out(1.6)',
+      }, '-=0.2')
+      .from('.footer-section__curve-divider', {
+        scaleX: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+        transformOrigin: 'center center',
+      }, '-=0.3')
+      .from('.footer-section__credit', {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      }, '-=0.2')
+      .from('.footer-section__bottom-line', {
+        scaleX: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+        transformOrigin: 'center center',
+      }, '-=0.3')
+      .from('.footer-section__closing-note', {
+        y: 24,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+      }, '-=0.2')
+
+    // 3. Floating ambient particles (star-like dots)
+    const innerEl = footerSection.value?.querySelector('.footer-section__inner')
+    if (innerEl) {
+      for (let i = 0; i < 10; i++) {
+        const particle = document.createElement('span')
+        const size = 3 + Math.random() * 5
+        particle.className = 'footer-particle'
+        particle.setAttribute('aria-hidden', 'true')
+        particle.style.cssText = [
+          'position: absolute;',
+          `width: ${size}px;`,
+          `height: ${size}px;`,
+          'border-radius: 50%;',
+          `background: rgba(255,255,255,${0.12 + Math.random() * 0.2});`,
+          `left: ${5 + Math.random() * 90}%;`,
+          `top: ${5 + Math.random() * 90}%;`,
+          'pointer-events: none;',
+          'z-index: 1;',
+        ].join('')
+        innerEl.appendChild(particle)
+
+        gsap.to(particle, {
+          y: -(30 + Math.random() * 60),
+          x: (Math.random() - 0.5) * 20,
+          opacity: 0,
+          duration: 6 + Math.random() * 10,
+          repeat: -1,
+          delay: Math.random() * 8,
+          ease: 'power1.out',
+        })
+      }
+    }
+
+    // 4. Subtle glow pulse on names
+    gsap.to('.footer-section__names', {
+      textShadow: '0 0 20px rgba(247, 222, 192, 0.3)',
+      duration: 2,
+      yoyo: true,
+      repeat: -1,
+      ease: 'sine.inOut',
+    })
+  }, footerSection)
+})
+
+onBeforeUnmount(() => {
+  animationContext?.revert()
+})
 </script>
 
 <style scoped>
@@ -272,7 +441,6 @@ const guestStore = useGuestStore()
 }
 
 /* ===== CREDIT ===== */
-/* Diperhalus: tidak mencolok, warna lembut, tanpa border tebal */
 .footer-section__credit {
   display: inline-block;
   margin-top: 0.8rem;
@@ -309,7 +477,7 @@ const guestStore = useGuestStore()
   font-size: 0.85rem;
 }
 
-/* ===== CLOSING NOTE (elegan, islami) ===== */
+/* ===== CLOSING NOTE ===== */
 .footer-section__closing-note {
   display: flex;
   flex-direction: column;
@@ -341,6 +509,14 @@ const guestStore = useGuestStore()
   font-weight: 300;
   color: rgba(255, 244, 222, 0.6);
   letter-spacing: 0.04em;
+}
+
+/* ===== Floating particles ===== */
+.footer-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 @media (max-width: 700px) {

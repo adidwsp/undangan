@@ -204,11 +204,12 @@ onMounted(() => {
 
     gsap.fromTo(
       '.countdown-section__item',
-      { y: 34, scale: 0.96, opacity: 0 },
+      { y: 34, scale: 0.96, opacity: 0, rotationY: 15 },
       {
         y: 0,
         scale: 1,
         opacity: 1,
+        rotationY: 0,
         duration: 0.78,
         stagger: 0.12,
         ease: 'power3.out',
@@ -218,6 +219,24 @@ onMounted(() => {
         },
       },
     )
+
+    // Gentle floating pulse on each countdown card (continuous)
+    gsap.to('.countdown-section__item', {
+      y: -4,
+      duration: 2.5,
+      stagger: 0.3,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+    })
+
+    // Shimmer effect on dividers
+    gsap.to('.countdown-section__item-divider', {
+      backgroundPosition: '200% 0',
+      duration: 3,
+      repeat: -1,
+      ease: 'none',
+    })
 
     gsap.fromTo(
       '.countdown-section__quote',
@@ -233,6 +252,15 @@ onMounted(() => {
         },
       },
     )
+
+// Icon pulse animation
+    gsap.to('.countdown-section__icon', {
+      scale: 1.08,
+      duration: 1.5,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+    })
   }, countdownSection)
 })
 

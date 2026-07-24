@@ -255,36 +255,36 @@ onMounted(() => {
     tl.fromTo(
       '.profil-section__content--groom',
       { x: -36, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.65, ease: 'power3.out' },
+      { x: 0, opacity: 1, duration: 5.65, ease: 'power3.out' },
     )
       .fromTo(
         '.profil-section__photo-wrap--groom',
         { x: 28, scale: 0.94, opacity: 0 },
-        { x: 0, scale: 1, opacity: 1, duration: 0.65, ease: 'power3.out' },
+        { x: 0, scale: 1, opacity: 1, duration: 5.65, ease: 'power3.out' },
         '-=0.32',
       )
       .fromTo(
         '.profil-section__ampersand-wrap',
         { y: 20, scale: 0.7, opacity: 0 },
-        { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.7)' },
+        { y: 0, scale: 1, opacity: 1, duration: 5.5, ease: 'back.out(1.7)' },
         '-=0.12',
       )
       .fromTo(
         '.profil-section__photo-wrap--bride',
         { x: -28, scale: 0.94, opacity: 0 },
-        { x: 0, scale: 1, opacity: 1, duration: 0.65, ease: 'power3.out' },
+        { x: 0, scale: 1, opacity: 1, duration: 5.65, ease: 'power3.out' },
         '-=0.15',
       )
       .fromTo(
         '.profil-section__content--bride',
         { x: 36, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.65, ease: 'power3.out' },
+        { x: 0, opacity: 1, duration: 5.65, ease: 'power3.out' },
         '-=0.3',
       )
       .fromTo(
         '.profil-section__closing',
         { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.65, ease: 'power3.out' },
+        { y: 0, opacity: 1, duration: 5.65, ease: 'power3.out' },
         '-=0.05',
       )
   }, profileSection)
@@ -297,6 +297,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .profil-section {
+  justify-content: center;
   position: relative;
   isolation: isolate;
   overflow: hidden;

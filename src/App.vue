@@ -1,7 +1,6 @@
 <template>
   <AppPreloader v-if="showPreloader" @ready="handlePreloaderReady" />
   <NavigationDots :items="navigationItems" />
-  <!-- <DecorativeOrnaments /> -->
 
   <main class="invitation-page">
     <HeroCover @open="handleInvitationOpen" />
@@ -14,7 +13,7 @@
     <GuestBook />
     <FooterSection />
   </main>
-  <FloatingAudioButton />
+  <FloatingAudioButton ref="floatingAudioRef" />
 </template>
 
 <script setup>
@@ -23,7 +22,6 @@ import { useRoute } from 'vue-router'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
-import {supabase} from '@/utils/supabase'
 
 import AppPreloader from '@/components/AppPreloader.vue'
 import AyatSection from '@/components/AyatSection.vue'
@@ -35,7 +33,6 @@ import GiftSection from '@/components/GiftSection.vue'
 import GuestBook from '@/components/GuestBook.vue'
 import HeroCover from '@/components/HeroCover.vue'
 import JourneySection from '@/components/JourneySection.vue'
-import DecorativeOrnaments from '@/components/common/DecorativeOrnaments.vue'
 import NavigationDots from '@/components/common/NavigationDots.vue'
 import { useGuestStore } from '@/stores/guest'
 import FloatingAudioButton from '@/components/FloatingAudioButton.vue'
@@ -46,9 +43,10 @@ const route = useRoute()
 const guestStore = useGuestStore()
 const showPreloader = ref(true)
 
+const floatingAudioRef = ref(null)
+
 let lenis = null
 let rafId = null
-let sound = null
 let hasOpened = false
 
 function setScrollLocked(locked) {
@@ -119,36 +117,10 @@ function scrollToNextSection() {
   })
 }
 
-async function initializeSound() {
-  if (sound) {
-    sound?.fade(0, 0.2, 2000)
-    return
-  }
-
-  try {
-    const { Howl } = await import('howler')
-    const audioSrc = (await import('@/assets/audio/backsound.mp3')).default
-
-    sound = new Howl({
-      src: [audioSrc],
-      loop: true,
-      volume: 0,
-      html5: false,
-    })
-
-    window.invitationSound = sound
-
-    sound.play()
-    sound.fade(0, 0.2, 2000)
-  } catch (error) {
-    console.warn('Unable to initialize invitation sound:', error)
-  }
-}
-
 function handleInvitationOpen() {
   if (!hasOpened) {
     hasOpened = true
-    void initializeSound()
+    floatingAudioRef.value?.play()
   }
 
   scrollToNextSection()
@@ -163,6 +135,38 @@ onMounted(() => {
   initLenis()
   setScrollLocked(true)
   window.requestAnimationFrame(() => ScrollTrigger.refresh())
+
+  // Section fade-in with slight parallax on all main sections
+  const sections = document.querySelectorAll('.invitation-page > section')
+  sections.forEach((section) => {
+    gsap.fromTo(
+      section,
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 92%',
+          once: true,
+        },
+      }
+    )
+  })
+
+  // Gentle parallax on the invitation page background
+  gsap.to('.invitation-page', {
+    backgroundPosition: '50% 30%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.invitation-page',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1,
+    },
+  })
 })
 
 onBeforeUnmount(() => {
@@ -170,6 +174,5 @@ onBeforeUnmount(() => {
   if (rafId) window.cancelAnimationFrame(rafId)
   lenis?.destroy()
   delete window.lenis
-  sound?.stop()
 })
 </script>
