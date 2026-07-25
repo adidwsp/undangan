@@ -10,6 +10,8 @@
       class="countdown-section__ornament countdown-section__ornament--left"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <img
@@ -17,6 +19,8 @@
       class="countdown-section__ornament countdown-section__ornament--right"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <div class="countdown-section__shell">

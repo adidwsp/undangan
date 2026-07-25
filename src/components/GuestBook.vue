@@ -10,6 +10,8 @@
       class="wishes-section__ornament wishes-section__ornament--left"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <img
@@ -17,6 +19,8 @@
       class="wishes-section__ornament wishes-section__ornament--right"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <div class="wishes-section__shell">

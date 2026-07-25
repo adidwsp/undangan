@@ -12,29 +12,33 @@
     </div>
 
     <div class="cover-section__backdrop cover-section__backdrop--static" aria-hidden="true">
-      <img :src="botanical01" class="cover-section__flower cover-section__flower--one" alt="" />
-      <img :src="botanical02" class="cover-section__flower cover-section__flower--two" alt="" />
-      <img :src="botanical03" class="cover-section__flower cover-section__flower--three" alt="" />
-      <img :src="botanical04" class="cover-section__flower cover-section__flower--four" alt="" />
+      <img :src="botanical01" class="cover-section__flower cover-section__flower--one" alt="" loading="lazy" decoding="async" />
+      <img :src="botanical02" class="cover-section__flower cover-section__flower--two" alt="" loading="lazy" decoding="async" />
+      <img :src="botanical03" class="cover-section__flower cover-section__flower--three" alt="" loading="lazy" decoding="async" />
+      <img :src="botanical04" class="cover-section__flower cover-section__flower--four" alt="" loading="lazy" decoding="async" />
 
       <img
         :src="floralCorner"
         class="cover-section__flower-border cover-section__flower-border--left"
         alt=""
+        loading="lazy"
+        decoding="async"
       />
 
       <img
         :src="floralCornerRight"
         class="cover-section__flower-border cover-section__flower-border--right"
         alt=""
+        loading="lazy"
+        decoding="async"
       />
 
       <img :src="topImage" class="cover-section__top-image" alt="" />
-      <img :src="bottomBlossom" class="cover-section__blossom cover-section__blossom--bottom" alt="" />
-      <img :src="bottomFlowers" class="cover-section__blossom cover-section__blossom--flowers" alt="" />
+      <img :src="bottomBlossom" class="cover-section__blossom cover-section__blossom--bottom" alt="" loading="lazy" decoding="async" />
+      <img :src="bottomFlowers" class="cover-section__blossom cover-section__blossom--flowers" alt="" loading="lazy" decoding="async" />
 
-      <img :src="botanical02" class="cover-section__leaf cover-section__leaf--one" alt="" />
-      <img :src="botanical03" class="cover-section__leaf cover-section__leaf--two" alt="" />
+      <img :src="botanical02" class="cover-section__leaf cover-section__leaf--one" alt="" loading="lazy" decoding="async" />
+      <img :src="botanical03" class="cover-section__leaf cover-section__leaf--two" alt="" loading="lazy" decoding="async" />
     </div>
 
     <div class="cover-section__gate">
@@ -56,7 +60,7 @@
       <div class="section__inner cover-section__inner">
         <div class="cover-section__title-stack">
           <div class="cover-section__ornament-wrap">
-            <img :src="rose" class="cover-section__islamic-ornament-img" alt="ornament" />
+            <img :src="rose" class="cover-section__islamic-ornament-img" alt="ornament" loading="lazy" decoding="async" />
           </div>
 
           <h1 ref="titleRef" id="cover-title" class="cover-section__title">

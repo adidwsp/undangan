@@ -9,7 +9,8 @@
       :src="floralCorner"
       :class="['floral-corner', corner.className]"
       alt=""
-      loading="eager"
+      loading="lazy"
+      decoding="async"
     />
 
     <img
@@ -19,7 +20,8 @@
       :class="['falling-botanical', item.className]"
       :style="item.style"
       alt=""
-      loading="eager"
+      loading="lazy"
+      decoding="async"
     />
 
     <span

@@ -10,6 +10,8 @@
       class="ayat-section__ornament ayat-section__ornament--left"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <img
@@ -17,6 +19,8 @@
       class="ayat-section__ornament ayat-section__ornament--right"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <div class="ayat-section__shell">
@@ -76,6 +80,8 @@
           class="ayat-section__card-flower ayat-section__card-flower--left"
           alt=""
           aria-hidden="true"
+          loading="lazy"
+          decoding="async"
         />
 
         <img
@@ -83,6 +89,8 @@
           class="ayat-section__card-flower ayat-section__card-flower--right"
           alt=""
           aria-hidden="true"
+          loading="lazy"
+          decoding="async"
         />
       </article>
 

@@ -10,6 +10,8 @@
       class="journey-section__ornament journey-section__ornament--left"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <img
@@ -17,6 +19,8 @@
       class="journey-section__ornament journey-section__ornament--right"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <div class="journey-section__shell">
@@ -68,26 +72,36 @@
                 v-if="item.icon === 'preparation'"
                 src="/src/assets/images/journey/preparation.png"
                 alt=""
+                loading="lazy"
+                decoding="async"
               />
               <img
                 v-else-if="item.icon === 'taaruf'"
                 src="/src/assets/images/journey/taaruf.png"
                 alt=""
+                loading="lazy"
+                decoding="async"
               />
               <img
                 v-else-if="item.icon === 'nadzhar'"
                 src="/src/assets/images/journey/nadzhar.png"
                 alt=""
+                loading="lazy"
+                decoding="async"
               />
               <img
                 v-else-if="item.icon === 'khitbah'"
                 src="/src/assets/images/journey/khitbah.png"
                 alt=""
+                loading="lazy"
+                decoding="async"
               />
               <img
                 v-else-if="item.icon === 'akad'"
                 src="/src/assets/images/journey/akad.png"
                 alt=""
+                loading="lazy"
+                decoding="async"
               />
             </div>
 

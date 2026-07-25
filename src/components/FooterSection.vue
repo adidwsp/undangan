@@ -10,12 +10,16 @@
       class="footer-section__ornament footer-section__ornament--left"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
     <img
       :src="floralOrnament"
       class="footer-section__ornament footer-section__ornament--right"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <div class="section__inner footer-section__inner">

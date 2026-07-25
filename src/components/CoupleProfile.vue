@@ -11,12 +11,16 @@
       class="profil-section__ornament profil-section__ornament--top-left"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
     <img
       :src="floralOrnament"
       class="profil-section__ornament profil-section__ornament--bottom-right"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <div class="profil-section__shell">
@@ -96,6 +100,8 @@
                     :src="people[0].image"
                     :alt="people[0].alt"
                     class="profil-section__person profil-section__person--groom"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
 
@@ -104,6 +110,8 @@
                   class="profil-section__frame"
                   alt=""
                   aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -135,6 +143,8 @@
                     :src="people[1].image"
                     :alt="people[1].alt"
                     class="profil-section__person profil-section__person--bride"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
 
@@ -143,6 +153,8 @@
                   class="profil-section__frame"
                   alt=""
                   aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

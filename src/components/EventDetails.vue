@@ -10,6 +10,8 @@
       class="detail-section__ornament detail-section__ornament--top-left"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <img
@@ -17,6 +19,8 @@
       class="detail-section__ornament detail-section__ornament--top-right"
       alt=""
       aria-hidden="true"
+      loading="lazy"
+      decoding="async"
     />
 
     <div class="detail-section__shell">

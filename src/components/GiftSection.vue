@@ -112,6 +112,8 @@
                 :src="account.logo"
                 :alt="'Logo ' + account.bank"
                 class="gift-section__bank-image"
+                loading="lazy"
+                decoding="async"
                 @error="handleLogoError(account)"
               />
               <span v-else class="gift-section__bank-mark">{{
@@ -269,13 +271,13 @@ async function copyAccount(account) {
 }
 
 function entrance(selector, options = {}) {
-  const {
-    trigger = selector,
-    start = "top 88%",
-    y = 28,
-    duration = 0.75,
-    stagger = 0,
-  } = options;
+    const {
+      trigger = selector,
+      start = "top 88%",
+      y = 28,
+      duration = 1.2,
+      stagger = 0,
+    } = options;
 
   gsap.fromTo(
     selector,
@@ -296,36 +298,18 @@ onMounted(async () => {
   await nextTick();
 
   animationContext = gsap.context(() => {
-    entrance(".gift-section__heading");
-    entrance(".gift-section__account-card", {
+    entrance(".gift-section__accounts", {
       trigger: ".gift-section__accounts",
       start: "top 84%",
       y: 34,
-      duration: 0.8,
-      stagger: 0.16,
+      duration: 1.3,
+      stagger: 0.22,
     });
+
     entrance(".gift-section__thanks", {
       start: "top 90%",
       y: 24,
-      duration: 0.7,
-    });
-
-    gsap.to(".gift-section__floral--top", {
-      y: 8,
-      x: -5,
-      duration: 5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-
-    gsap.to(".gift-section__floral--bottom", {
-      y: -7,
-      x: 5,
-      duration: 5.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
+      duration: 1.1,
     });
   }, giftSection.value);
 });
@@ -367,7 +351,8 @@ onBeforeUnmount(() => {
   height: 42rem;
   border-radius: 50%;
   opacity: 0.46;
-  filter: blur(32px);
+  /* reduce blur to lower paint cost */
+  filter: blur(14px);
   pointer-events: none;
 }
 
@@ -394,12 +379,17 @@ onBeforeUnmount(() => {
   top: -0.4rem;
   right: -1.4rem;
   width: clamp(13rem, 31vw, 25rem);
+  will-change: transform;
+  /* GPU-friendly, long-running gentle float */
+  animation: floral-top 12s ease-in-out infinite alternate;
 }
 
 .gift-section__floral--bottom {
   bottom: -1.3rem;
   left: -1.4rem;
   width: clamp(12rem, 28vw, 23rem);
+  will-change: transform;
+  animation: floral-bottom 14s ease-in-out infinite alternate;
 }
 
 .gift-section__flower {
@@ -645,11 +635,13 @@ onBeforeUnmount(() => {
   display: block;
   max-width: 100%;
   color: var(--gift-navy);
-  font-size: clamp(1.15rem, 3.25vw, 2.25rem);
+  font-size: clamp(1rem, 2.8vw, 1.85rem);
   font-weight: 800;
-  letter-spacing: 0.055em;
-  line-height: 1.1;
-  white-space: nowrap;
+  letter-spacing: 0.035em;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .gift-section__copy-button {
@@ -834,13 +826,32 @@ onBeforeUnmount(() => {
   }
 
   .gift-section__account-number {
-    font-size: clamp(0.96rem, 4.1vw, 1.35rem);
-    letter-spacing: 0.025em;
+    font-size: clamp(0.95rem, 4vw, 1.25rem);
+    letter-spacing: 0.02em;
   }
 
   .gift-section__copy-button {
     min-width: 7rem;
     padding: 0.66rem 0.95rem;
+  }
+}
+
+/* gentle, GPU-accelerated float animations to replace JS loops */
+@keyframes floral-top {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-6px, 10px, 0);
+  }
+}
+
+@keyframes floral-bottom {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(6px, -12px, 0);
   }
 }
 
@@ -899,7 +910,7 @@ onBeforeUnmount(() => {
   }
 
   .gift-section__account-number {
-    font-size: clamp(0.79rem, 3.75vw, 1rem);
+    font-size: clamp(0.9rem, 4.2vw, 1rem);
     letter-spacing: 0.01em;
   }
 
@@ -974,6 +985,12 @@ onBeforeUnmount(() => {
 
   .gift-section__copy-button:hover {
     transform: none;
+  }
+  /* disable decorative motion for reduced-motion users */
+  .gift-section__floral--top,
+  .gift-section__floral--bottom {
+    animation: none !important;
+    transform: none !important;
   }
 }
 </style>
