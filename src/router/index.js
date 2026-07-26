@@ -7,7 +7,7 @@ const routes = [
     component: { template: '<span aria-hidden="true" />' },
   },
   {
-    path: '/:slug',
+    path: '/:slug(.*)',
     name: 'guest',
     component: { template: '<span aria-hidden="true" />' },
     props: true,

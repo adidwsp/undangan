@@ -45,6 +45,28 @@ const showPreloader = ref(true)
 
 const floatingAudioRef = ref(null)
 
+function getSlugFromRoute() {
+  const rawSlug = route.params.slug
+  if (Array.isArray(rawSlug)) {
+    return rawSlug[0] || ''
+  }
+
+  if (rawSlug) {
+    return rawSlug
+  }
+
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
+  const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '')
+  return pathname && pathname !== 'index.html' ? pathname : ''
+}
+
+function syncGuestFromRoute() {
+  guestStore.loadGuest(getSlugFromRoute())
+}
+
 let lenis = null
 let rafId = null
 let hasOpened = false
@@ -72,8 +94,8 @@ const navigationItems = [
 
 watch(
   () => route.params.slug,
-  (slug) => {
-    guestStore.loadGuest(Array.isArray(slug) ? slug[0] : slug)
+  () => {
+    syncGuestFromRoute()
   },
   { immediate: true },
 )
@@ -132,6 +154,7 @@ function handlePreloaderReady() {
 }
 
 onMounted(() => {
+  syncGuestFromRoute()
   initLenis()
   setScrollLocked(true)
   window.requestAnimationFrame(() => ScrollTrigger.refresh())
