@@ -130,6 +130,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { revealOnScroll } from '@/utils/gsapReveal'
 
 import floralOrnament from '@/assets/images/topleft-blossom-gold.png'
 
@@ -173,36 +174,20 @@ const journey = [
 
 onMounted(() => {
   animationContext = gsap.context(() => {
-    gsap.fromTo(
-      '.journey-section__heading',
-      { y: 28, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.75,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.journey-section__heading',
-          start: 'top 88%',
-        },
-      },
-    )
+    revealOnScroll('.journey-section__heading', {
+      from: { y: 28, opacity: 0 },
+      to: { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out' },
+      trigger: '.journey-section__heading',
+      start: 'top 88%',
+    })
 
-    gsap.fromTo(
-      '.journey-section__item',
-      { y: 34, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.75,
-        stagger: 0.14,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.journey-section__timeline',
-          start: 'top 82%',
-        },
-      },
-    )
+    revealOnScroll('.journey-section__item', {
+      from: { y: 34, opacity: 0 },
+      to: { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out' },
+      trigger: '.journey-section__timeline',
+      start: 'top 82%',
+      stagger: 0.14,
+    })
   }, journeySection)
 })
 

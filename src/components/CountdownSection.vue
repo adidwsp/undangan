@@ -134,6 +134,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { revealOnScroll } from '@/utils/gsapReveal'
 
 import { useCountdown } from '@/composables/useCountdown'
 import floralOrnament from '@/assets/images/topleft-blossom-gold.png'
@@ -191,38 +192,20 @@ const isWeddingDayPassed = computed(() => {
 
 onMounted(() => {
   animationContext = gsap.context(() => {
-    gsap.fromTo(
-      '.countdown-section__heading',
-      { y: 28, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.75,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.countdown-section__heading',
-          start: 'top 88%',
-        },
-      },
-    )
+    revealOnScroll('.countdown-section__heading', {
+      from: { y: 28, opacity: 0 },
+      to: { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out' },
+      trigger: '.countdown-section__heading',
+      start: 'top 88%',
+    })
 
-    gsap.fromTo(
-      '.countdown-section__item',
-      { y: 34, scale: 0.96, opacity: 0, rotationY: 15 },
-      {
-        y: 0,
-        scale: 1,
-        opacity: 1,
-        rotationY: 0,
-        duration: 0.78,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.countdown-section__grid',
-          start: 'top 84%',
-        },
-      },
-    )
+    revealOnScroll('.countdown-section__item', {
+      from: { y: 34, scale: 0.96, opacity: 0, rotationY: 15 },
+      to: { y: 0, scale: 1, opacity: 1, rotationY: 0, duration: 0.78, ease: 'power3.out' },
+      trigger: '.countdown-section__grid',
+      start: 'top 84%',
+      stagger: 0.12,
+    })
 
     // Gentle floating pulse on each countdown card (continuous)
     gsap.to('.countdown-section__item', {
@@ -242,20 +225,12 @@ onMounted(() => {
       ease: 'none',
     })
 
-    gsap.fromTo(
-      '.countdown-section__quote',
-      { y: 24, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.75,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.countdown-section__quote',
-          start: 'top 90%',
-        },
-      },
-    )
+    revealOnScroll('.countdown-section__quote', {
+      from: { y: 24, opacity: 0 },
+      to: { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out' },
+      trigger: '.countdown-section__quote',
+      start: 'top 90%',
+    })
 
 // Icon pulse animation
     gsap.to('.countdown-section__icon', {

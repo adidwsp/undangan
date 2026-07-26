@@ -57,7 +57,14 @@
           <article class="profil-section__row profil-section__row--groom">
             <div class="profil-section__content profil-section__content--groom">
               <p class="profil-section__role">{{ people[0].role }}</p>
-              <h3 class="profil-section__name">{{ people[0].name }}</h3>
+              <h3 class="profil-section__name">
+                <span>{{ typedNames[0] }}</span>
+                <span
+                  class="profil-section__name-cursor"
+                  :class="{ 'is-visible': typingCompleted[0] }"
+                  aria-hidden="true"
+                ></span>
+              </h3>
               <p class="profil-section__details">{{ people[0].details }}</p>
 
               <a
@@ -161,7 +168,14 @@
 
             <div class="profil-section__content profil-section__content--bride">
               <p class="profil-section__role">{{ people[1].role }}</p>
-              <h3 class="profil-section__name">{{ people[1].name }}</h3>
+              <h3 class="profil-section__name">
+                <span>{{ typedNames[1] }}</span>
+                <span
+                  class="profil-section__name-cursor"
+                  :class="{ 'is-visible': typingCompleted[1] }"
+                  aria-hidden="true"
+                ></span>
+              </h3>
               <p class="profil-section__details">{{ people[1].details }}</p>
 
               <a
@@ -218,6 +232,11 @@ gsap.registerPlugin(ScrollTrigger)
 
 const profileSection = ref(null)
 let animationContext
+const typedNames = ref(['', ''])
+const typingCompleted = ref([false, false])
+const typingTimers = []
+const typingDelay = 105
+const wordDelay = 360
 
 const people = [
   {
@@ -240,7 +259,55 @@ const people = [
   },
 ]
 
+function clearTypingAnimation() {
+  typingTimers.forEach((timer) => window.clearTimeout(timer))
+  typingTimers.length = 0
+}
+
+function startTypingAnimation() {
+  clearTypingAnimation()
+
+  people.forEach((person, index) => {
+    typedNames.value[index] = ''
+    typingCompleted.value[index] = false
+
+    const words = person.name.split(' ')
+    let wordIndex = 0
+
+    const typeNextWord = () => {
+      if (wordIndex >= words.length) {
+        typingCompleted.value[index] = true
+        return
+      }
+
+      const word = words[wordIndex]
+      let charIndex = 0
+
+      const typeNextChar = () => {
+        if (charIndex >= word.length) {
+          if (wordIndex < words.length - 1) {
+            typedNames.value[index] += ' '
+          }
+          wordIndex += 1
+          typingTimers.push(window.setTimeout(typeNextWord, wordDelay))
+          return
+        }
+
+        typedNames.value[index] += word.charAt(charIndex)
+        charIndex += 1
+        typingTimers.push(window.setTimeout(typeNextChar, typingDelay))
+      }
+
+      typeNextChar()
+    }
+
+    typingTimers.push(window.setTimeout(typeNextWord, index * 280 + 220))
+  })
+}
+
 onMounted(() => {
+  startTypingAnimation()
+
   animationContext = gsap.context(() => {
     gsap.fromTo(
       '.profil-section__intro-card',
@@ -303,6 +370,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  clearTypingAnimation()
   animationContext?.revert()
 })
 </script>
@@ -565,6 +633,20 @@ onBeforeUnmount(() => {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.78);
 }
 
+.profil-section__name-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.08em;
+  border-right: 2px solid transparent;
+  vertical-align: middle;
+}
+
+.profil-section__name-cursor.is-visible {
+  border-right-color: currentColor;
+  animation: profil-name-cursor 0.9s step-end infinite;
+}
+
 .profil-section__details {
   max-width: 17rem;
   margin: clamp(0.75rem, 2.4vw, 1.35rem) 0 0;
@@ -733,6 +815,12 @@ onBeforeUnmount(() => {
 .profil-section__closing-divider {
   width: min(13rem, 62%);
   margin-top: 0.85rem;
+}
+
+@keyframes profil-name-cursor {
+  50% {
+    border-right-color: transparent;
+  }
 }
 
 @media (max-width: 700px) {

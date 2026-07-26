@@ -94,6 +94,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import { useGuestStore } from '@/stores/guest'
+import { revealOnScroll } from '@/utils/gsapReveal'
 import floralOrnament from '@/assets/images/topleft-blossom-gold.png'
 
 gsap.registerPlugin(ScrollTrigger)

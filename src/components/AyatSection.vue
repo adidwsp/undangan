@@ -107,6 +107,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { revealOnScroll } from '@/utils/gsapReveal'
 
 import floralOrnament from '@/assets/images/topleft-blossom-gold.png'
 
@@ -117,62 +118,27 @@ let animationContext
 
 onMounted(() => {
   animationContext = gsap.context(() => {
-    gsap.fromTo(
-      '.ayat-section__heading',
-      {
-        y: 28,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.75,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.ayat-section__heading',
-          start: 'top 88%',
-        },
-      },
-    )
+    revealOnScroll('.ayat-section__heading', {
+      from: { y: 28, opacity: 0 },
+      to: { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out' },
+      trigger: '.ayat-section__heading',
+      start: 'top 88%',
+    })
 
-    gsap.fromTo(
-      '.ayat-section__card',
-      {
-        y: 38,
-        scale: 0.96,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        scale: 1,
-        opacity: 1,
-        duration: 0.85,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.ayat-section__card',
-          start: 'top 84%',
-        },
-      },
-    )
+    revealOnScroll('.ayat-section__card', {
+      from: { y: 38, scale: 0.96, opacity: 0 },
+      to: { y: 0, scale: 1, opacity: 1, duration: 0.85, ease: 'power3.out' },
+      trigger: '.ayat-section__card',
+      start: 'top 84%',
+    })
 
-    gsap.fromTo(
-      '.ayat-section__arabic, .ayat-section__translation, .ayat-section__source',
-      {
-        y: 18,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.75,
-        stagger: 0.15,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.ayat-section__card',
-          start: 'top 78%',
-        },
-      },
-    )
+    revealOnScroll('.ayat-section__arabic, .ayat-section__translation, .ayat-section__source', {
+      from: { y: 18, opacity: 0 },
+      to: { y: 0, opacity: 1, duration: 0.75, ease: 'power2.out' },
+      trigger: '.ayat-section__card',
+      start: 'top 78%',
+      stagger: 0.15,
+    })
   }, ayatSection)
 })
 

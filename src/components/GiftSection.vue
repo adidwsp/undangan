@@ -1,4 +1,4 @@
-<template>
+  <template>
   <section
     id="gift"
     ref="giftSection"
@@ -275,7 +275,8 @@ function entrance(selector, options = {}) {
       trigger = selector,
       start = "top 88%",
       y = 28,
-      duration = 1.2,
+      // duration = 1.2,
+      duration = 0.3,
       stagger = 0,
     } = options;
 
@@ -302,7 +303,8 @@ onMounted(async () => {
       trigger: ".gift-section__accounts",
       start: "top 84%",
       y: 34,
-      duration: 1.3,
+      // duration: 1.3,
+      duration: 0.2,
       stagger: 0.22,
     });
 
