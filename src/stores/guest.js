@@ -34,7 +34,9 @@ export const useGuestStore = defineStore('guest', {
   },
   actions: {
     setSlug(slug) {
-      this.slug = slug || ''
+      const nextSlug = slug || ''
+      this.slug = nextSlug
+      this.name = nextSlug ? formatGuestNameFromSlug(nextSlug) : defaultGuestName
     },
     async loadGuest(slug) {
       console.log('📡 loadGuest dipanggil dengan slug:', slug)
@@ -56,7 +58,7 @@ export const useGuestStore = defineStore('guest', {
         const guest = await getGuestBySlug(slug)
         console.log('📦 Data dari Supabase:', guest)
 
-        this.name = guest?.name || fallbackName
+        this.name = guest?.name?.trim() || fallbackName
         this.attendanceStatus = guest?.attendance_status || ''
         console.log('✅ Nama akhir di store:', this.name)
       } catch (error) {
