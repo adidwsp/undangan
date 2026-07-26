@@ -171,8 +171,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
-import { gsap } from 'gsap'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 import { useGuestStore } from '@/stores/guest'
 import { useCountdown } from '@/composables/useCountdown'
@@ -201,7 +200,6 @@ const titleRef = ref(null)
 const dateRef = ref(null)
 const guestRef = ref(null)
 const buttonRef = ref(null)
-const scrollHintRef = ref(null)
 
 const isOpened = ref(false)
 
@@ -287,34 +285,6 @@ async function initParticles() {
   })
 }
 
-function playEntrance() {
-  const targets = [
-    eyebrowRef.value,
-    titleRef.value,
-    dateRef.value,
-    guestRef.value,
-    buttonRef.value,
-  ].filter(Boolean)
-
-  gsap.fromTo(
-    targets,
-    {
-      y: 36,
-      opacity: 0,
-      scale: 0.97,
-    },
-    {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      duration: 1,
-      ease: 'power3.out',
-      stagger: 0.12,
-      clearProps: 'transform,opacity',
-    },
-  )
-}
-
 function scrollToNextSection() {
   const nextSection =
     document.querySelector('#ayat') ||
@@ -329,41 +299,10 @@ function scrollToNextSection() {
   })
 }
 
-async function openInvitation() {
+function openInvitation() {
   if (!isOpened.value) {
     isOpened.value = true
     emit('open')
-
-    gsap.fromTo(
-      buttonRef.value,
-      {
-        scale: 0.96,
-      },
-      {
-        scale: 1,
-        duration: 0.45,
-        ease: 'back.out(1.8)',
-      },
-    )
-
-    await nextTick()
-
-    if (scrollHintRef.value) {
-      gsap.fromTo(
-        scrollHintRef.value,
-        {
-          y: -6,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.45,
-          ease: 'power2.out',
-        },
-      )
-    }
-
     return
   }
 
@@ -371,7 +310,6 @@ async function openInvitation() {
 }
 
 onMounted(() => {
-  playEntrance()
   initParticles()
 })
 

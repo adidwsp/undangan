@@ -226,8 +226,8 @@ const accounts = ref([
     id: "seabank",
     bank: "SeaBank",
     name: "Zahro Annisa",
-    number: "9010 7624 6789 6367",
-    rawNumber: "9010762467896367",
+    number: "9010 7624 6367",
+    rawNumber: "901076246367",
     logo: seabank,
   },
 ]);
